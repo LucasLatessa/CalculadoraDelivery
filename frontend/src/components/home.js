@@ -3,6 +3,7 @@ import { obtenerCoordenadas } from '../services/geocoder'
 import { calcularCuadras } from '../services/routing'
 import PriceSettingsModal from './PriceSettingsModal'
 import { obtenerPrecios, actualizarPrecios } from '../services/backend';
+import './home.css';
 
 // API Keys
 const API_KEY_ORS = process.env.REACT_APP_API_KEY_ORS
