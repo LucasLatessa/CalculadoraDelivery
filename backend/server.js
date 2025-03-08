@@ -65,22 +65,28 @@ app.post('/log', (req, res) => {
   if (!result || !result.geometry) {
     const errorLog = {
       direccion,
-      fecha: new Date().toISOString(),
+      fecha: new Date().toLocaleString("es-AR", { timeZone: "America/Argentina/Buenos_Aires" }),
       error: 'No se encontraron coordenadas'
     };
 
     return guardarLog(errorLog, res);
   }
-  const fecha = new Date();
-  const fechaFormateada = `${fecha.getFullYear()}-${(fecha.getMonth() + 1).toString().padStart(2, '0')}-${fecha.getDate().toString().padStart(2, '0')} ${fecha.getHours().toString().padStart(2, '0')}:${fecha.getMinutes().toString().padStart(2, '0')}:${fecha.getSeconds().toString().padStart(2, '0')}`;
-
+  const fecha = new Date().toLocaleString("es-AR", {
+    timeZone: "America/Argentina/Buenos_Aires",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
   // Extraer datos relevantes del resultado de OpenCage
   const log = {
     direccion_ingresada: direccion,
     direccion_geocodificada: result.formatted,
     tipo: result.components._type,
     long_lat: `${result.geometry.lng}, ${result.geometry.lat}`,
-    fecha: fechaFormateada
+    fecha: fecha
   };
 
   guardarLog(log, res);

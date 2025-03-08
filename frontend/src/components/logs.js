@@ -42,7 +42,7 @@ const Logs = () => {
               <td>{log.direccion_ingresada}</td>
               <td>{log.direccion_geocodificada}</td>
               <td>{log.tipo}</td>
-              <td>{`${log.longitud}, ${log.latitud}`}</td> {/* Combinando longitud y latitud */}
+              <td>{`${log.long_lat}`}</td> {/* Combinando longitud y latitud */}
             </tr>
           ))}
         </tbody>
