@@ -5,8 +5,10 @@ import PriceSettingsModal from './components/PriceSettingsModal'
 import { obtenerPrecios, actualizarPrecios } from './services/precios';
 
 // API Keys
-const API_KEY_ORS = process.env.REACT_APP_API_KEY_ORS
-const API_KEY_GEOCODER = process.env.REACT_APP_API_KEY_GEOCODER
+//const API_KEY_ORS = process.env.REACT_APP_API_KEY_ORS
+//const API_KEY_GEOCODER = process.env.REACT_APP_API_KEY_GEOCODER
+const API_KEY_ORS = "5b3ce3597851110001cf6248f8b7fdf52ad04c5b8da06885e7d26fdd"
+const API_KEY_GEOCODER = "04ad901a0e30498aacf3860f42bbe52a" 
 const COORDENADAS_LOCAL = [-60.0210392, -34.9003684]// Pinto 58, Chivilcoy, BA, Argentina(Spezia)
 function App() {
   const [direccion, setDireccion] = React.useState("");

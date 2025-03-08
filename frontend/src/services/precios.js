@@ -1,7 +1,9 @@
 // Función para obtener los precios desde el servidor
 export const obtenerPrecios = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/precios`);
+      //const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/precios`);
+      const response = await fetch(`https://calculadoradelivery-production.up.railway.app/precios`);
+      
       const data = await response.json();
     return data;
   } catch (error) {
@@ -13,7 +15,8 @@ export const obtenerPrecios = async () => {
   // Función para guardar los precios en el servidor
   export const actualizarPrecios = async (nuevosPrecios) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/precios`, {
+      //const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/precios`, {
+      const response = await fetch(`https://calculadoradelivery-production.up.railway.app/precios`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
