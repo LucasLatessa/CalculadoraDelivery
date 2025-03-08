@@ -1,0 +1,3 @@
+https://account.heigit.org/manage/key
+https://disaster.openrouteservice.org/#/
+https://opencagedata.com/demo

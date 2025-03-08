@@ -1,0 +1,90 @@
+import React from 'react';
+
+function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
+  // Establecemos los valores iniciales de precios basados en las claves dinámicas
+  const [preciosLocal, setPreciosLocal] = React.useState({
+    "10": precios["10"] || "",
+    "20": precios["20"] || "",
+    "30": precios["30"] || ""
+  });
+
+  // Función para manejar los cambios en los inputs
+  const handleInputChange = (key) => (e) => {
+    setPreciosLocal({
+      ...preciosLocal,
+      [key]: e.target.value
+    });
+  };
+
+  const handleSave = () => {
+    // Verificar si todos los valores son válidos
+    if (!preciosLocal["10"] || !preciosLocal["20"] || !preciosLocal["30"]) {
+      alert("Por favor ingrese valores válidos para todos los campos.");
+      return;
+    }
+
+    // Guardar los precios modificados
+    onSave({
+      "10": Number.parseInt(preciosLocal["10"]),
+      "20": Number.parseInt(preciosLocal["20"]),
+      "30": Number.parseInt(preciosLocal["30"]),
+    });
+
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-backdrop">
+      <div className="modal">
+        <h2>Configurar Precios</h2>
+
+        <div className="form-group">
+          <label>Precio hasta 10 cuadras ($):</label>
+          <input
+            type="number"
+            value={preciosLocal["10"]}
+            onChange={handleInputChange("10")}
+            min="0"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Precio hasta 20 cuadras ($):</label>
+          <input
+            type="number"
+            value={preciosLocal["20"]}
+            onChange={handleInputChange("20")}
+            min="0"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Precio para más de 20 cuadras ($):</label>
+          <input
+            type="number"
+            value={preciosLocal["30"]}
+            onChange={handleInputChange("30")}
+            min="0"
+          />
+        </div>
+
+        <div className="modal-footer">
+          <button
+            className="button button-secondary"
+            onClick={onClose}
+            style={{ marginRight: "10px" }}
+          >
+            Cancelar
+          </button>
+          <button className="button button-primary" onClick={handleSave}>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default PriceSettingsModal;

@@ -1,0 +1,25 @@
+{
+  "short_name": "Calculadora Envio",
+  "name": "Calculadora de envios delivery",
+  "icons": [
+    {
+      "src": "delivery.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "delivery.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "delivery.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
