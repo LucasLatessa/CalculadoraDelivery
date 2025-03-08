@@ -81,11 +81,23 @@ app.post('/log', (req, res) => {
     second: "2-digit",
     hour12: false
   });
+  const tipoTraduccion = {
+    building: "Edificio",
+    road: "Calle",
+    city: "Ciudad",
+    village: "Pueblo",
+    state: "Provincia",
+    country: "País",
+  };
+  
+  const tipo = result.components._type;
+  const tipoTraducido = tipoTraduccion[tipo] || tipo;  // Si no se encuentra la traducción, mantiene el valor original
+  
   // Extraer datos relevantes del resultado de OpenCage
   const log = {
     direccion_ingresada: direccion,
     direccion_geocodificada: result.formatted,
-    tipo: result.components._type,
+    tipo: tipoTraducido,
     long_lat: `${result.geometry.lng}, ${result.geometry.lat}`,
     fecha: fecha
   };
