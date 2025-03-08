@@ -6,9 +6,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;  /* Asegura que el contenido se centre en la pantalla */
-  padding-top: 40px;
-  flex-direction: column;
+  height: 100vh;  /* Centra el contenido verticalmente */
+  flex-direction: column;  /* Para que todo el contenido se apile correctamente */
 }
 
 .container {
@@ -18,14 +17,14 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 0 10px; /* Asegura que el contenido no se quede pegado a los bordes */
+  margin: 0 10px;  /* Margen para que no toque los bordes */
 }
 
 .title {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
-  font-size: 1.5rem;  /* Un tamaño de fuente adecuado para dispositivos pequeños */
+  font-size: 1.25rem;  /* Un tamaño de fuente adecuado para móviles */
 }
 
 .form-group {
@@ -173,15 +172,29 @@ body {
 
 @media (max-width: 600px) {
   .container {
-    margin: 10px;
+    margin: 0 10px;
     padding: 15px;
+    box-sizing: border-box;  /* Asegura que el padding no se desborde */
   }
 
   .title {
-    font-size: 1.25rem;  /* Tamaño de fuente adecuado para móviles */
+    font-size: 1.2rem;  /* Reduce el tamaño de la fuente para pantallas pequeñas */
   }
 
   .form-group input {
-    font-size: 14px; /* Reducir el tamaño de fuente de los inputs */
+    font-size: 14px; /* Ajusta el tamaño de fuente de los inputs */
+  }
+
+  .button {
+    font-size: 14px; /* Reducir el tamaño de los botones */
+    padding: 10px;
+  }
+
+  .result p {
+    font-size: 14px; /* Ajusta el tamaño de las fuentes dentro de los resultados */
+  }
+
+  .result .cost {
+    font-size: 18px; /* Hacer que el texto sea más pequeño */
   }
 }
