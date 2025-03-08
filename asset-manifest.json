@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/LucasLatessa/CalculadoraDelivery/static/css/main.32b6c26d.css",
+    "main.js": "/LucasLatessa/CalculadoraDelivery/static/js/main.35c322a2.js",
+    "index.html": "/LucasLatessa/CalculadoraDelivery/index.html",
+    "main.32b6c26d.css.map": "/LucasLatessa/CalculadoraDelivery/static/css/main.32b6c26d.css.map",
+    "main.35c322a2.js.map": "/LucasLatessa/CalculadoraDelivery/static/js/main.35c322a2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.32b6c26d.css",
+    "static/js/main.35c322a2.js"
+  ]
+}
