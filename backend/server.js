@@ -12,7 +12,7 @@ const corsOptions = {
   allowedHeaders: 'Content-Type' // Headers permitidos
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 // Middleware para parsear el cuerpo de las solicitudes JSON
 app.use(express.json())
 
