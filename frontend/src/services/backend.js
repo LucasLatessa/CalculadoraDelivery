@@ -32,4 +32,11 @@ export const obtenerPrecios = async () => {
       throw error; // Re-lanzamos el error para manejarlo donde se llame
     }
   };
-  
+  // Funcion envia la dirección y el status al backend
+  export const logConsulta = async (direccion,result) => {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/log`, {  
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ direccion: direccion, result }),
+    });
+  }

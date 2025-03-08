@@ -1,0 +1,42 @@
+[
+  {
+    "direccion_ingresada": "tomaso, Chivilcoy, BA, Argentina",
+    "direccion_geocodificada": "Avenida Antonio de Tomaso, Partido de Chivilcoy, B6620 KSB Chivilcoy, Argentina",
+    "tipo": "road",
+    "longitud": -60.0541165,
+    "latitud": -34.8696927,
+    "fecha": "2025-03-08 16:41:04"
+  },
+  {
+    "direccion_ingresada": "25 de mayo 367, Chivilcoy, BA, Argentina",
+    "direccion_geocodificada": "25 de Mayo 367, Partido de Chivilcoy, 6620 Chivilcoy, Argentina",
+    "tipo": "building",
+    "longitud": -60.0137587,
+    "latitud": -34.9024121,
+    "fecha": "2025-03-08 16:42:15"
+  },
+  {
+    "direccion_ingresada": "25 de mayo 367, Chivilcoy, BA, Argentina",
+    "direccion_geocodificada": "25 de Mayo 367, Partido de Chivilcoy, 6620 Chivilcoy, Argentina",
+    "tipo": "building",
+    "longitud": -60.0137587,
+    "latitud": -34.9024121,
+    "fecha": "2025-03-08 16:44:19"
+  },
+  {
+    "direccion_ingresada": "25 de mayo 1, Chivilcoy, BA, Argentina",
+    "direccion_geocodificada": "25 de Mayo 1, Partido de Chivilcoy, 6620 Chivilcoy, Argentina",
+    "tipo": "building",
+    "longitud": -60.0198027,
+    "latitud": -34.8977397,
+    "fecha": "2025-03-08 16:44:37"
+  },
+  {
+    "direccion_ingresada": "25 de mayo 2, Chivilcoy, BA, Argentina",
+    "direccion_geocodificada": "25 de Mayo, Partido de Chivilcoy, 6620 Chivilcoy, Argentina",
+    "tipo": "road",
+    "longitud": -60.0073635,
+    "latitud": -34.9072606,
+    "fecha": "2025-03-08 16:44:45"
+  }
+]

@@ -1,3 +1,9 @@
 https://account.heigit.org/manage/key
+https://opencagedata.com/dashboard
 https://disaster.openrouteservice.org/#/
-https://opencagedata.com/demo
+
+
+
+
+OpenCage(obtener coordenadas de una direccion): 2500 solicitudes al dia
+OpenRouteService(obtener ruta entre dos direcciones): 2000 peticiones al dia
