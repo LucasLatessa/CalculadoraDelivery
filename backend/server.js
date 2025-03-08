@@ -78,7 +78,8 @@ app.post('/log', (req, res) => {
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit"
+    second: "2-digit",
+    hour12: false
   });
   // Extraer datos relevantes del resultado de OpenCage
   const log = {
