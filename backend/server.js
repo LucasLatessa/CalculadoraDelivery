@@ -1,15 +1,26 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
-const cors = require('cors')  // Importamos el paquete cors
+const cors = require('cors') 
 
 const app = express()
 const port = 3001
+const allowedOrigins = ['https://calculadora-delivery.vercel.app'];
 
 const corsOptions = {
-  origin: 'https://calculadora-delivery.vercel.app', // Solo permite este dominio
-  methods: 'GET,POST', // Métodos HTTP permitidos
-  allowedHeaders: 'Content-Type' // Headers permitidos
+  origin: function (origin, callback) {
+    if (!origin) {
+      // Si no hay origen (acceso directo en el navegador), bloquear
+      return callback(new Error('Acceso no permitido'), false);
+    }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Acceso no permitido'), false);
+    }
+  },
+  methods: 'GET,POST',
+  allowedHeaders: 'Content-Type'
 };
 
 app.use(cors(corsOptions));
