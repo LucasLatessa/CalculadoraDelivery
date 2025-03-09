@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaTimes } from 'react-icons/fa'; // Importamos el ícono de la cruz de react-icons
 
 function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
   // Establecemos los valores iniciales de precios basados en las claves dinámicas
@@ -38,6 +39,11 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
   return (
     <div className="modal-backdrop">
       <div className="modal">
+        {/* Botón de cierre en la parte superior */}
+        <button className="close-button" onClick={onClose}>
+          <FaTimes />
+        </button>
+
         <h2>Configurar Precios</h2>
 
         <div className="form-group">
@@ -72,13 +78,10 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
 
         <div className="modal-footer">
           <button
-            className="button button-secondary"
-            onClick={onClose}
-            style={{ marginRight: "10px" }}
+            className="button button-primary"
+            onClick={handleSave}
+            style={{ width: '100%' }} // Aseguramos que el botón de guardar ocupe todo el ancho
           >
-            Cancelar
-          </button>
-          <button className="button button-primary" onClick={handleSave}>
             Guardar
           </button>
         </div>
