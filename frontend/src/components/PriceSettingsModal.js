@@ -5,7 +5,9 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
   // Establecemos los valores iniciales de precios basados en las claves dinámicas
   const [preciosLocal, setPreciosLocal] = React.useState({
     "10": precios["10"] || "",
+    "15": precios["15"] || "",
     "20": precios["20"] || "",
+    "25": precios["25"] || "",
     "30": precios["30"] || ""
   });
 
@@ -19,7 +21,7 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
 
   const handleSave = () => {
     // Verificar si todos los valores son válidos
-    if (!preciosLocal["10"] || !preciosLocal["20"] || !preciosLocal["30"]) {
+    if (!preciosLocal["10"] || !preciosLocal["15"] || !preciosLocal["20"] || !preciosLocal["25"] || !preciosLocal["30"]) {
       alert("Por favor ingrese valores válidos para todos los campos.");
       return;
     }
@@ -27,7 +29,9 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
     // Guardar los precios modificados
     onSave({
       "10": Number.parseInt(preciosLocal["10"]),
+      "15": Number.parseInt(preciosLocal["15"]),
       "20": Number.parseInt(preciosLocal["20"]),
+      "25": Number.parseInt(preciosLocal["25"]),
       "30": Number.parseInt(preciosLocal["30"]),
     });
 
@@ -57,6 +61,16 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
         </div>
 
         <div className="form-group">
+          <label>Precio hasta 15 cuadras ($):</label>
+          <input
+            type="number"
+            value={preciosLocal["15"]}
+            onChange={handleInputChange("15")}
+            min="0"
+          />
+        </div>
+
+        <div className="form-group">
           <label>Precio hasta 20 cuadras ($):</label>
           <input
             type="number"
@@ -67,7 +81,17 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
         </div>
 
         <div className="form-group">
-          <label>Precio para más de 20 cuadras ($):</label>
+          <label>Precio hasta 25 cuadras ($):</label>
+          <input
+            type="number"
+            value={preciosLocal["25"]}
+            onChange={handleInputChange("25")}
+            min="0"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Precio para más de 25 cuadras ($):</label>
           <input
             type="number"
             value={preciosLocal["30"]}

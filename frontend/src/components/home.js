@@ -44,13 +44,16 @@ function Home() {
   };
   // Función para calcular el costo de envío
   const calcularCostoEnvio = (cuadras, precios) => {
-     // Verificamos el número de cuadras y retornamos el costo correspondiente
     if (cuadras <= 10) {
-      return precios["10"]; // 10 cuadras
+      return precios["10"];
+    } else if (cuadras <= 15) {
+      return precios["15"];
     } else if (cuadras <= 20) {
-      return precios["20"]; // 20 cuadras
+      return precios["20"];
+    } else if (cuadras <= 25) {
+      return precios["25"];
     } else {
-      return precios["30"]; // 30 cuadras o más
+      return precios["30"]; // Más de 25 cuadras
     }
   };
 
