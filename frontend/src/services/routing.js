@@ -34,4 +34,18 @@ export async function calcularCuadras(coord1, coord2, apiKey) {
       return 0 // En caso de error, retornamos 0 cuadras
     }
   }
+
+
+export async function obtenerRecorridoOptimizado (paradas) {
+    const url = `${process.env.REACT_APP_BACKEND_URL}/recorrido`; // Cambia por tu backend en producción
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ paradas }),
+    });
+    if (!response.ok) throw new Error("Error en la optimización");
   
+    return await response.json();
+  };

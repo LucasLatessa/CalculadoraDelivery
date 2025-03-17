@@ -72,13 +72,10 @@ const handleSubmit = async (e) => {
   setCargando(true); // Indicamos que estamos cargando
 
   try {
-    // Completamos la dirección con "Chivilcoy, BA, Argentina" si no está incluida
-    const direccionCompleta = direccion.includes("Chivilcoy")
-      ? direccion
-      : `${direccion}, Chivilcoy, BA, Argentina`;
+    
 
     // Intentamos obtener las coordenadas de la dirección ingresada
-    const coordDestino = await obtenerCoordenadas(direccionCompleta, API_KEY_GEOCODER);
+    const coordDestino = await obtenerCoordenadas(direccion, API_KEY_GEOCODER);
     // Si no se obtienen coordenadas, mostramos un error
     if (!coordDestino) {
       setError("No se encontraron coordenadas para la dirección ingresada. Intente con otra dirección.");

@@ -2,9 +2,10 @@ const express = require('express')
 const fs = require('fs')
 const path = require('path')
 const cors = require('cors') 
+require("dotenv").config();
 
 const app = express()
-const port = 3001
+const port = 3001/* 
 const allowedOrigins = ['https://calculadora-delivery.vercel.app'];
 
 const corsOptions = {
@@ -22,8 +23,9 @@ const corsOptions = {
   methods: 'GET,POST',
   allowedHeaders: 'Content-Type'
 };
-
-app.use(cors(corsOptions));
+ */
+//app.use(cors(corsOptions));
+app.use(cors());
 // Middleware para parsear el cuerpo de las solicitudes JSON
 app.use(express.json())
 
@@ -140,6 +142,82 @@ const guardarLog = (log, res) => {
     });
   });
 };
+const apikey= process.env.API_KEY_ORS
+app.post('/recorrido', async (req, res) => {
+  try {
+    const { paradas } = req.body;
+
+    // 🔹 1. SOLICITAR OPTIMIZACIÓN DE RUTA (Ordena las paradas)
+    const bodyOptimizacion = {
+      jobs: paradas.map((coord, index) => ({
+        id: index + 1,
+        location: [coord[0], coord[1]], // ORS usa [lon, lat]
+      })),
+      vehicles: [
+        {
+          id: 1,
+          start: [paradas[0][0], paradas[0][1]], // Punto de inicio (lon, lat)
+          profile: "driving-car",
+        },
+      ],
+    };
+
+    const responseOptimizacion = await fetch(
+      "https://api.openrouteservice.org/optimization",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: apikey,
+        },
+        body: JSON.stringify(bodyOptimizacion),
+      }
+    );
+
+    if (!responseOptimizacion.ok) {
+      const errorText = await responseOptimizacion.text();
+      throw new Error(`Error en ORS Optimización: ${errorText}`);
+    }
+
+    const dataOptimizacion = await responseOptimizacion.json();
+   
+    // 🔹 2. EXTRAER LAS PARADAS OPTIMIZADAS
+    const routeSteps = dataOptimizacion.routes[0].steps.map(step => step.location);
+
+    // 🔹 3. SOLICITAR DIRECCIÓN DETALLADA (Para obtener la geometría real)
+    const responseDireccion = await fetch(
+      `https://api.openrouteservice.org/v2/directions/driving-car/geojson`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: apikey,
+        },
+        body: JSON.stringify({
+          coordinates: routeSteps, // Paradas ordenadas de la optimización
+          instructions: false, // No necesitamos instrucciones, solo la geometría
+        }),
+      }
+    );
+
+    if (!responseDireccion.ok) {
+      const errorText = await responseDireccion.text();
+      throw new Error(`Error en ORS Direcciones: ${errorText}`);
+    }
+
+    const dataDireccion = await responseDireccion.json();
+
+    // 🔹 4. ENVIAR RESPUESTA FINAL CON LA GEOMETRÍA
+    res.json({
+      ruta: dataDireccion.features[0].geometry.coordinates, // Coordenadas de la línea
+    });
+
+  } catch (error) {
+    console.error("Error en /recorrido:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor backend corriendo en http://localhost:${port}`)
