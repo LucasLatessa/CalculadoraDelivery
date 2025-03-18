@@ -23,7 +23,7 @@ const corsOptions = {
   allowedHeaders: 'Content-Type'
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 // Middleware para parsear el cuerpo de las solicitudes JSON
 app.use(express.json())
 
