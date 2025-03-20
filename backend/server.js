@@ -2,11 +2,15 @@ const express = require('express')
 const fs = require('fs')
 const path = require('path')
 const cors = require('cors') 
+require("dotenv").config();
+const polyline = require("@mapbox/polyline"); // Necesario para decodificar la polyline
+
 
 const app = express()
 const port = 3001
 const allowedOrigins = ['https://calculadora-delivery.vercel.app'];
-
+const API_KEY_GMAPS = process.env.GOOGLE_MAPS_API_KEY;
+const API_KEY_DISTANCE =process.env.DISTANCE_API_KEY
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) {
@@ -55,6 +59,116 @@ app.post('/precios', (req, res) => {
     res.json({ message: 'Precios guardados correctamente' })
   })
 })
+
+app.post("/recorrido", async (req, res) => {
+  try {
+    const { direcciones } = req.body;
+    
+    if (!Array.isArray(direcciones) || direcciones.length < 2) {
+      return res.status(400).json({ error: "Se necesitan al menos dos direcciones." });
+    }
+
+    const origin = direcciones[0];  // Punto de inicio fijo
+    let waypoints = direcciones.slice(1);  // Optimizar todos menos el primero
+
+    if (waypoints.length > 1) {
+      // Obtener distancias usando Google Distance Matrix API
+      const matrixResponse = await fetch(
+        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${waypoints.join("|")}&key=${API_KEY_DISTANCE}`
+      );
+
+      const matrixData = await matrixResponse.json();
+      if (!matrixData.rows || matrixData.rows.length === 0 || !matrixData.rows[0]) {
+        throw new Error("No se pudo obtener la matriz de distancias.");
+      }
+      
+
+      // Ordenar waypoints desde el origen usando algoritmo greedy
+      waypoints = ordenarWaypoints(matrixData, waypoints);
+    }
+
+    // Hacer la petición a Routes API con el orden optimizado
+    const body = {
+      origin: { address: origin },
+      destination: { address: waypoints[waypoints.length - 1] },
+      intermediates: waypoints.slice(0, -1).map((direccion) => ({ address: direccion })),
+      travelMode: "DRIVE",
+      routingPreference: "TRAFFIC_AWARE_OPTIMAL",
+    };
+
+    const response = await fetch("https://routes.googleapis.com/directions/v2:computeRoutes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": API_KEY_GMAPS,
+        "X-Goog-FieldMask": "routes.distanceMeters,routes.polyline.encodedPolyline,routes.legs",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+    //console.log(JSON.stringify(data, null, 2));//mostrar response de la API
+    if (!data.routes || data.routes.length === 0) {
+      throw new Error("No se pudo calcular la ruta.");
+    }
+
+    // Decodificar la polyline en coordenadas de ruta
+    const rutaCoordenadas = polyline.decode(data.routes[0].polyline.encodedPolyline).map(([lat, lng]) => ({
+      lat,
+      lng,
+    }));
+
+    let paradas = [];
+    data.routes[0].legs.forEach((leg, index) => {
+      if (index === 0) {
+        paradas.push({
+          lat: leg.startLocation.latLng.latitude,
+          lng: leg.startLocation.latLng.longitude,
+        });
+      }
+      paradas.push({
+        lat: leg.endLocation.latLng.latitude,
+        lng: leg.endLocation.latLng.longitude,
+      });
+    });
+    const duracionMinutos = Math.ceil(data.routes[0].legs.reduce((total, leg) => total + parseInt(leg.duration.replace("s", ""), 10), 0) / 60);
+    res.json({
+      distanciaTotal: data.routes[0].distanceMeters,
+      rutaCoordenadas,
+      paradas,
+      duracionMinutos,
+    });
+
+  } catch (error) {
+    console.error("Error en la solicitud:", error);
+    res.status(500).json({ error: "Error en la solicitud de optimización y cálculo de ruta" });
+  }
+});
+
+// Algoritmo para ordenar los waypoints
+function ordenarWaypoints(matrixData, waypoints) {
+  let ordenados = [];
+  let restantes = [...waypoints];
+
+  // Seleccionar el punto más cercano al origen como el primero en la ruta
+  while (restantes.length > 0) {
+    let masCercanoIndex = 0;
+    let menorDistancia = Infinity;
+
+    for (let i = 0; i < restantes.length; i++) {
+      let distancia = matrixData.rows[0].elements[i].distance.value;
+      if (distancia < menorDistancia) {
+        menorDistancia = distancia;
+        masCercanoIndex = i;
+      }
+    }
+
+    ordenados.push(restantes[masCercanoIndex]);
+    restantes.splice(masCercanoIndex, 1);
+  }
+
+  return ordenados;
+}
 
 app.get('/log', (req, res) => {
   const logsPath = path.join(__dirname, 'logs.json');

@@ -16,8 +16,7 @@ export async function calcularCuadras(origen, destino, apiKey) {
         });
 
         const data = await response.json();
-        console.log("Respuesta completa:", data);
-
+        
         if (!data.routes || data.routes.length === 0) {
             console.error("No se encontraron rutas.");
             return { cuadras: null, direccionDestino: "No disponible" };
@@ -61,3 +60,4 @@ async function obtenerDireccion(lat, lng, apiKey) {
         return "Error obteniendo dirección";
     }
 }
+
