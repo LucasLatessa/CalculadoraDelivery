@@ -68,15 +68,14 @@ app.post('/log', async (req, res) => {
   const {
     direccion_ingresada,
     direccion_geocodificada,
-    coordenadas,
+    long_lat,
     tipo_ubicacion,
     status,
     error
   } = req.body;
 
   const fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  const long_lat = coordenadas ? `${coordenadas.lng}, ${coordenadas.lat}` : null;
-
+  
   try {
     await pool.query(
       'INSERT INTO logs (direccion_ingresada, direccion_geocodificada, long_lat, tipo_ubicacion, fecha, error, status) VALUES (?, ?, ?, ?, ?, ?, ?)',

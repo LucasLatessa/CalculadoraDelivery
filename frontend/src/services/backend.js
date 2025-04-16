@@ -37,7 +37,7 @@ export const actualizarPrecios = async (nuevosPrecios) => {
 export const logConsulta = async (direccion, result) => {
   const payload = {
     direccion_ingresada: direccion,
-    direccion_geocodificada: result?.direccionGeocodificada || null,
+    direccion_geocodificada: result?.direccion_geocodificada || null,
     long_lat: result?.coordenadas 
       ? `${result.coordenadas.lat()},${result.coordenadas.lng()}`
       : null,
