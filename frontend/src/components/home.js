@@ -24,7 +24,8 @@ function Home() {
         cargarPrecios();
       }, []);
     
-    const cargarPrecios = async () => {
+ 
+      const cargarPrecios = async () => {
         try {
           const preciosData = await obtenerPrecios();
           setPrecios(preciosData);
