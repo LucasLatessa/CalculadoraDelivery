@@ -6,6 +6,7 @@ const Logs = () => {
 
   useEffect(() => {
     setLogs(obtenerLogs());
+    console.log(logs);
   }, []);
 
   return (
