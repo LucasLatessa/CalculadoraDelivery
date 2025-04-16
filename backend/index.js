@@ -67,21 +67,22 @@ app.get('/log', async (req, res) => {
 app.post('/log', async (req, res) => {
   const { direccion, result } = req.body;
 
-  if (!result || !result.geometry) {
-    return guardarLog({
-      direccion_ingresada: direccion,
-      error: 'No se encontraron coordenadas'
-    }, res);
-  }
-
   const fecha = new Date().toISOString();
 
-  const log = {
+  let log = {
     direccion_ingresada: direccion,
-    direccion_geocodificada: result.formatted,
-    long_lat: `${result.geometry.lng}, ${result.geometry.lat}`,
-    fecha
+    direccion_geocodificada: result.direccion_geocodificada || null,
+    long_lat: result.coordenadas ? `${result.coordenadas.lng}, ${result.coordenadas.lat}` : null,
+    tipo_ubicacion: result.tipo_ubicacion || null,
+    fecha,
+    error: result.error || null,
+    status: result.status || null,
   };
+
+  // Verificar si hay un error en la geocodificación y ajustar el log
+  if (result.status === "error") {
+    log.error = result.error;
+  }
 
   guardarLog(log, res);
 });
@@ -89,13 +90,15 @@ app.post('/log', async (req, res) => {
 const guardarLog = async (log, res) => {
   try {
     await pool.query(
-      'INSERT INTO logs (direccion_ingresada, direccion_geocodificada, long_lat, fecha, error) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO logs (direccion_ingresada, direccion_geocodificada, long_lat, tipo_ubicacion, fecha, error, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
         log.direccion_ingresada,
         log.direccion_geocodificada || null,
         log.long_lat || null,
+        log.tipo_ubicacion || null,
         log.fecha,
-        log.error || null
+        log.error || null,
+        log.status || null
       ]
     );
     res.json({ message: 'Log guardado correctamente' });

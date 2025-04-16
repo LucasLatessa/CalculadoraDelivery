@@ -50,10 +50,22 @@ function Home() {
         const geocoder = new window.google.maps.Geocoder()
         geocoder.geocode({ address: direccion }, (results, status) => {
           if (status === "OK") {
-            console.log(results[0])
-            //logConsulta(direccion, results[0])
+            const geocodeData = {
+              direccion_ingresada: direccion,
+              direccion_geocodificada: results[0].formatted_address,
+              coordenadas: results[0].geometry.location,
+              tipo_ubicacion: results[0].types.join(", "),
+              status: "exitosa",
+            };
+            logConsulta(direccion, geocodeData);
             resolve(results[0].geometry.location)
           } else {
+            const geocodeError = {
+              direccion_ingresada: direccion,
+              status: "error",
+              error: "No se pudo geocodificar la direccion",
+            };
+            logConsulta(direccion, geocodeError);
             reject(new Error("No se pudo geocodificar la direccion"))
           }
         })
