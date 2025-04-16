@@ -43,6 +43,7 @@ export const logConsulta = async (direccion, result) => {
       : null,
     error: result?.error || null,
   }
+  console.log( 'payload', payload)
 
   await fetch(`${process.env.REACT_APP_BACKEND_URL}/log`, {  
     method: "POST",
