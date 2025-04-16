@@ -27,16 +27,27 @@ const Logs = () => {
             <th>Fecha</th>
             <th>Dirección Ingresada</th>
             <th>Dirección Geocodificada</th>
-            <th>Longitud, Latitud</th> {/* Columna combinada */}
+            <th>Longitud, Latitud</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {logs.map((log, index) => (
+
             <tr key={index}>
-              <td>{log.fecha}</td>
+              <td>{new Date(log.fecha).toLocaleString('es-AR', {
+                  timeZone: 'America/Argentina/Buenos_Aires',
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </td>
               <td>{log.direccion_ingresada}</td>
               <td>{log.direccion_geocodificada}</td>
-              <td>{`${log.long_lat}`}</td> {/* Combinando longitud y latitud */}
+              <td>{log.long_lat}</td>
+              <td>{log.status}</td>
             </tr>
           ))}
         </tbody>
