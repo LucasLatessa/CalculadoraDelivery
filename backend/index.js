@@ -66,7 +66,7 @@ app.get('/log', async (req, res) => {
 // Guardar logs
 app.post('/log', async (req, res) => {
   const { direccion, result } = req.body;
-  const fecha = new Date().toISOString();
+  const fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
   const log = {
     direccion_ingresada: direccion || null,
