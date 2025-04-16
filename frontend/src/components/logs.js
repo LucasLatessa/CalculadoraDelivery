@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import obtenerLogs from "../services/backend";
+import {obtenerLogs} from "../services/backend";
 const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
