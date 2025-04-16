@@ -5,10 +5,18 @@ const Logs = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setLogs(obtenerLogs());
-    console.log(logs);
+    const cargarLogs = async () => {
+      try {
+        const data = await obtenerLogs();
+        setLogs(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error al cargar logs:', error);
+      }
+    };
+  
+    cargarLogs();
   }, []);
-
   return (
     <div>
       <h2>📜 Logs de Consultas</h2>
