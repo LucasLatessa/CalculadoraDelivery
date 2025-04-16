@@ -34,30 +34,33 @@ export const actualizarPrecios = async (nuevosPrecios) => {
 };
 
 // Funcion envia la dirección y el status al backend
-export const logConsulta = async (direccion,result) => {
+export const logConsulta = async (direccion, result) => {
+  const payload = {
+    direccion_ingresada: direccion,
+    direccion_geocodificada: result?.direccionGeocodificada || null,
+    long_lat: result?.coordenadas 
+      ? `${result.coordenadas.lat()},${result.coordenadas.lng()}`
+      : null,
+    error: result?.error || null,
+  }
+
   await fetch(`${process.env.REACT_APP_BACKEND_URL}/log`, {  
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ direccion: direccion, result }),
+    body: JSON.stringify(payload),
   });
 }
-// Funcion para creae recorrido con direcciones
-export async function obtenerRecorrido(direcciones) {
+// Función para obtener los logs del backend
+export const obtenerLogs = async () => {
   try {
-    if (direcciones.length < 2) {
-      throw new Error("Se necesitan al menos dos direcciones.");
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/log`);
+    if (!response.ok) {
+      throw new Error('No se pudieron obtener los logs');
     }
-
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recorrido`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ direcciones }),
-    });
-
-    const data = await response.json();
-    return data;
+    const logs = await response.json();
+    return logs;
   } catch (error) {
-    console.error("Error en obtenerRecorrido:", error);
+    console.error('Error al obtener logs:', error);
     throw error;
   }
-}
+};

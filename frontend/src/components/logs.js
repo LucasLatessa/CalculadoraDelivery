@@ -1,24 +1,11 @@
 import { useEffect, useState } from "react";
-
+import obtenerLogs from "../services/backend";
 const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchLogs = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/log`);
-        if (!response.ok) {
-          throw new Error("Error al obtener los logs");
-        }
-        const data = await response.json();
-        setLogs(data);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-    fetchLogs();
+    setLogs(obtenerLogs());
   }, []);
 
   return (
@@ -31,7 +18,6 @@ const Logs = () => {
             <th>Fecha</th>
             <th>Dirección Ingresada</th>
             <th>Dirección Geocodificada</th>
-            <th>Tipo</th>
             <th>Longitud, Latitud</th> {/* Columna combinada */}
           </tr>
         </thead>
@@ -41,7 +27,6 @@ const Logs = () => {
               <td>{log.fecha}</td>
               <td>{log.direccion_ingresada}</td>
               <td>{log.direccion_geocodificada}</td>
-              <td>{log.tipo}</td>
               <td>{`${log.long_lat}`}</td> {/* Combinando longitud y latitud */}
             </tr>
           ))}

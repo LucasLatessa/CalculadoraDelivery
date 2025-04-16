@@ -75,22 +75,10 @@ app.post('/log', async (req, res) => {
   }
 
   const fecha = new Date().toISOString();
-  const tipoTraduccion = {
-    building: "Edificio",
-    road: "Calle",
-    city: "Ciudad",
-    village: "Pueblo",
-    state: "Provincia",
-    country: "Pais",
-  };
-
-  const tipo = result.components._type;
-  const tipoTraducido = tipoTraduccion[tipo] || tipo;
 
   const log = {
     direccion_ingresada: direccion,
     direccion_geocodificada: result.formatted,
-    tipo: tipoTraducido,
     long_lat: `${result.geometry.lng}, ${result.geometry.lat}`,
     fecha
   };
@@ -101,11 +89,10 @@ app.post('/log', async (req, res) => {
 const guardarLog = async (log, res) => {
   try {
     await pool.query(
-      'INSERT INTO logs (direccion_ingresada, direccion_geocodificada, tipo, long_lat, fecha, error) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO logs (direccion_ingresada, direccion_geocodificada, long_lat, fecha, error) VALUES (?, ?, ?, ?, ?)',
       [
         log.direccion_ingresada,
         log.direccion_geocodificada || null,
-        log.tipo || null,
         log.long_lat || null,
         log.fecha,
         log.error || null

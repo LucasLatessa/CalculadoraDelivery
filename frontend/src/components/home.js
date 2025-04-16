@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LoadScript} from "@react-google-maps/api"
-import { obtenerPrecios, actualizarPrecios } from "../services/backend";
+import { obtenerPrecios, actualizarPrecios, logConsulta } from "../services/backend";
 import MapaConRuta from "./mapaConRuta"
 import PriceSettingsModal from "./PriceSettingsModal";
 import { FaTrashAlt } from "react-icons/fa"
@@ -70,6 +70,7 @@ function Home() {
           },
           (response, status) => {
             if (status === "OK") {
+              logConsulta(direccion, response.rows[0].elements[0])
               const metros = response.rows[0].elements[0].distance.value
               resolve(metros)
             } else {
