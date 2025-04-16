@@ -1,11 +1,75 @@
 .app {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto; 
-  padding: 20px;
+  min-height: 100vh;
   background-color: #f0f2f5;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.container {
+  background-color: #fff;
+  padding: 30px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.button-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.button-secondary:hover {
+  background-color: #5a6268;
+}
+.button-agregar {
+  margin-top: 10px;
+  padding: 7px 10px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button-agregar:hover {
+  background-color: #155cad;
+}
+.button-optimizar {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #555; /* gris oscuro */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button-optimizar:hover {
+  background-color: #333;
 }
 .result {
   margin-top: 20px;
@@ -13,6 +77,7 @@
   background-color: #f9f9f9;
   border-radius: 4px;
   border-left: 4px solid #4caf50;
+  text-align: left;
 }
 
 .result p {
@@ -25,9 +90,36 @@
   font-size: 20px;
   color: #333;
 }
+.error {
+  color: red;
+  margin-top: 10px;
+}
 
+.loader {
+  margin-top: 20px;
+}
 
-/* Animación del logo (si se usa) */
+.recorrido {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.recorrido ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.recorrido li {
+  margin-bottom: 5px;
+}
+
+/* Boton de cambiar costos arriba a la derecha */
+.config-button-container {
+  position: absolute;
+  top: -3%; 
+  right: -17%;
+}
+/* Animación del logo*/
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -87,4 +179,24 @@
 
 .button-primary:hover {
   background-color: #45a049;
+}
+
+
+/*Estilos del mapa*/
+.mapa-contenedor {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.mapa-google {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { LoadScript} from "@react-google-maps/api"
+import { LoadScript, GoogleMap, Marker, DirectionsRenderer } from "@react-google-maps/api"
 import { obtenerPrecios, actualizarPrecios } from "../services/backend";
 import MapaConRuta from "./mapaConRuta"
 import PriceSettingsModal from "./PriceSettingsModal";
-import "./home.css"
 
 const ORIGEN_COORDENADAS = { lat: -34.9003698, lng: -60.0210871 } // Gral. Pinto 58, Chivilcoy
 const CIUDAD = ", Chivilcoy, Buenos Aires, Argentina"
 const CUADRA_METROS = 100
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-function Home() {
+function Calculadora() {
     const [direccion, setDireccion] = useState("")
     const [precios, setPrecios] = useState(null);
     const [modalAbierto, setModalAbierto] = useState(false);
@@ -210,4 +209,4 @@ function Home() {
     )
   }
   
-  export default Home
+  export default Calculadora

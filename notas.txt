@@ -2,8 +2,10 @@ https://account.heigit.org/manage/key
 https://opencagedata.com/dashboard
 https://disaster.openrouteservice.org/#/
 
+Por cada calculo de cuadras a maps:
+Geocoding API: 1
+Distance Matrix API: 1
 
-
-
-OpenCage(obtener coordenadas de una direccion): 2500 solicitudes al dia
-OpenRouteService(obtener ruta entre dos direcciones): 2000 peticiones al dia
+Por cada calculo de recorrido:
+Directions API: 1
+Maps JavaScript API: 1 (por el mapa)
