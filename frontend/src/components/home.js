@@ -50,6 +50,8 @@ function Home() {
         const geocoder = new window.google.maps.Geocoder()
         geocoder.geocode({ address: direccion }, (results, status) => {
           if (status === "OK") {
+            console.log(results[0])
+            //logConsulta(direccion, results[0])
             resolve(results[0].geometry.location)
           } else {
             reject(new Error("No se pudo geocodificar la direccion"))
@@ -70,7 +72,6 @@ function Home() {
           },
           (response, status) => {
             if (status === "OK") {
-              logConsulta(direccion, response.rows[0].elements[0])
               const metros = response.rows[0].elements[0].distance.value
               resolve(metros)
             } else {
@@ -96,7 +97,6 @@ function Home() {
       try {
         const direccionCompleta = direccion.trim() + CIUDAD
         const destino = await geocode(direccionCompleta)
-  
         const metros = await calcularDistancia(ORIGEN_COORDENADAS, destino)
         const cuadras = Math.ceil(metros / CUADRA_METROS)
         const costo = calcularCostoEnvio(cuadras, precios);
