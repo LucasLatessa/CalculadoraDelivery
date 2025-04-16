@@ -4,6 +4,7 @@ const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
 
+  
   useEffect(() => {
     const fetchLogs = async () => {
       try {
