@@ -42,6 +42,9 @@ export const logConsulta = async (direccion, result) => {
       ? `${result.coordenadas.lat()},${result.coordenadas.lng()}`
       : null,
     error: result?.error || null,
+    tipo_ubicacion: result.tipo_ubicacion,
+    status: result.status,
+
   }
   console.log( 'payload', payload)
 
