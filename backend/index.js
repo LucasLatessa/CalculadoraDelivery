@@ -7,7 +7,7 @@ const app = express()
 const port = 3001
 const allowedOrigins = ['https://speziadelivery.vercel.app'];
 
-app.use(cors({
+/* app.use(cors({
   origin: function (origin, callback) {
     // Permite requests sin origin (como postman o curl) o si el origin esta en la lista
     if (allowedOrigins.includes(origin)) {
@@ -16,7 +16,8 @@ app.use(cors({
       callback(new Error('No permitido por CORS'));
     }
   }
-}));
+})); */
+app.use(cors())
 app.use(express.json())
 
 // Obtener precios desde la base de datos
