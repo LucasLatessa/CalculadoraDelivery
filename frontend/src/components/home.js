@@ -19,7 +19,7 @@ function Home() {
     const [error, setError] = useState("")
     const [carrito, setCarrito] = useState([])
     const [directions, setDirections] = useState(null) 
-    
+    const libraries = ['places']; 
     useEffect(() => {
         cargarPrecios();
       }, []);
@@ -154,7 +154,7 @@ function Home() {
              </div>
             <LoadScript
                 googleMapsApiKey={API_KEY}
-                libraries={["places", "directions"]}
+                libraries={libraries}
             >
             <div className="container">
                 <h1 className="title">Calcular costo de envio</h1>
