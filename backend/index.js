@@ -65,32 +65,29 @@ app.get('/log', async (req, res) => {
 
 // Guardar logs
 app.post('/log', async (req, res) => {
-  const { direccion, result } = req.body;
-  const fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const {
+    direccion_ingresada,
+    direccion_geocodificada,
+    coordenadas,
+    tipo_ubicacion,
+    status,
+    error
+  } = req.body;
 
-  const log = {
-    direccion_ingresada: direccion || null,
-    direccion_geocodificada: result?.direccion_geocodificada || null,
-    long_lat: result?.coordenadas
-      ? `${result.coordenadas.lng}, ${result.coordenadas.lat}`
-      : null,
-    tipo_ubicacion: result?.tipo_ubicacion || null,
-    fecha,
-    error: result?.error || null,
-    status: result?.status || null,
-  };
+  const fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const long_lat = coordenadas ? `${coordenadas.lng}, ${coordenadas.lat}` : null;
 
   try {
     await pool.query(
       'INSERT INTO logs (direccion_ingresada, direccion_geocodificada, long_lat, tipo_ubicacion, fecha, error, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
-        log.direccion_ingresada,
-        log.direccion_geocodificada,
-        log.long_lat,
-        log.tipo_ubicacion,
-        log.fecha,
-        log.error,
-        log.status,
+        direccion_ingresada || null,
+        direccion_geocodificada || null,
+        long_lat || null,
+        tipo_ubicacion || null,
+        fecha,
+        error || null,
+        status || null
       ]
     );
     res.json({ message: 'Log guardado correctamente' });
