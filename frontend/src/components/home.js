@@ -3,6 +3,7 @@ import { LoadScript} from "@react-google-maps/api"
 import { obtenerPrecios, actualizarPrecios } from "../services/backend";
 import MapaConRuta from "./mapaConRuta"
 import PriceSettingsModal from "./PriceSettingsModal";
+import { FaTrashAlt } from "react-icons/fa"
 import "./home.css"
 
 const ORIGEN_COORDENADAS = { lat: -34.9003698, lng: -60.0210871 } // Gral. Pinto 58, Chivilcoy
@@ -79,12 +80,13 @@ function Home() {
       })
     }
     const calcularCostoEnvio = (cuadras, precios) => {
-        if (cuadras <= 10) return precios["10"];
-        if (cuadras <= 15) return precios["15"];
-        if (cuadras <= 20) return precios["20"];
-        if (cuadras <= 25) return precios["25"];
-        return precios["30"];
-      };
+      for (let i = 0; i < precios.length; i++) {
+        if (cuadras <= precios[i].cuadras) {
+          return precios[i].precio;
+        }
+      }
+      return precios[precios.length - 1].precio; 
+    };
     const handleCalcular = async () => {
       setCargando(true)
       setError("")
@@ -115,6 +117,9 @@ function Home() {
         ])
       }
     }
+    const eliminarDelCarrito = (index) => {
+      setCarrito((prevCarrito) => prevCarrito.filter((_, i) => i !== index))
+    }    
 
     // Funcion para calcular la ruta optimizada
     const calcularRutaOptima = () => {
@@ -185,11 +190,18 @@ function Home() {
                     <div className="recorrido">
                     <h3>Recorrido:</h3>
                     <ul>
-                        {carrito.map((item, index) => (
-                        <li key={index}>
-                            {item.direccion} - Cuadras: {item.cuadras} - Costo: ${item.costo}
+                      {carrito.map((item, index) => (
+                        <li key={index} className="carrito-item">
+                          {item.direccion} - Cuadras: {item.cuadras} - Costo: ${item.costo}
+                          <button
+                            className="btn-eliminar"
+                            onClick={() => eliminarDelCarrito(index)}
+                            title="Eliminar"
+                          >
+                          <FaTrashAlt />
+                          </button>
                         </li>
-                        ))}
+                      ))}
                     </ul>
                     <button className="button-optimizar" onClick={calcularRutaOptima}>Calcular recorrido</button>
                     </div>

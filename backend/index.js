@@ -1,13 +1,13 @@
 const express = require('express')
 const cors = require('cors')
-const pool = require('./db') // importamos la conexion a la base de datos
+const pool = require('./db')
 require("dotenv").config();
 
 const app = express()
 const port = 3001
 const allowedOrigins = ['https://speziadelivery.vercel.app'];
 
-/* app.use(cors({
+app.use(cors({
   origin: function (origin, callback) {
     // Permite requests sin origin (como postman o curl) o si el origin esta en la lista
     if (allowedOrigins.includes(origin)) {
@@ -16,8 +16,8 @@ const allowedOrigins = ['https://speziadelivery.vercel.app'];
       callback(new Error('No permitido por CORS'));
     }
   }
-})); */
-app.use(cors())
+}));
+/* app.use(cors()) */
 app.use(express.json())
 
 // Obtener precios desde la base de datos
@@ -33,15 +33,14 @@ app.get('/precios', async (req, res) => {
 
 // Guardar precios en la base de datos
 app.post('/precios', async (req, res) => {
-  const nuevosPrecios = req.body; // se espera un objeto tipo { "10": 1100, "15": 1600, ... }
-
+  const nuevosPrecios = req.body; 
   try {
     const conn = await pool.getConnection();
     await conn.beginTransaction();
 
     await conn.query('DELETE FROM precios');
 
-    const values = Object.entries(nuevosPrecios).map(([cuadras, precio]) => [parseInt(cuadras), precio]);
+    const values = nuevosPrecios.map(p => [parseInt(p.cuadras, 10), parseInt(p.precio, 10)]);
     await conn.query('INSERT INTO precios (cuadras, precio) VALUES ?', [values]);
 
     await conn.commit();

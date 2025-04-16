@@ -1,117 +1,74 @@
-import React from 'react';
-import { FaTimes } from 'react-icons/fa'; // Importamos el ícono de la cruz de react-icons
+import React from 'react'
+import { FaTimes } from 'react-icons/fa'
 
 function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
-  // Establecemos los valores iniciales de precios basados en las claves dinámicas
-  const [preciosLocal, setPreciosLocal] = React.useState({
-    "10": precios["10"] || "",
-    "15": precios["15"] || "",
-    "20": precios["20"] || "",
-    "25": precios["25"] || "",
-    "30": precios["30"] || ""
-  });
+  const [preciosLocal, setPreciosLocal] = React.useState([])
 
-  // Función para manejar los cambios en los inputs
-  const handleInputChange = (key) => (e) => {
-    setPreciosLocal({
-      ...preciosLocal,
-      [key]: e.target.value
-    });
-  };
+  React.useEffect(() => {
+    // Inicializamos los precios con los valores que vienen como parametro
+    setPreciosLocal(precios.map(item => ({ ...item })))
+  }, [precios])
+
+  const handleInputChange = (index) => (e) => {
+    const nuevosPrecios = [...preciosLocal]
+    nuevosPrecios[index].precio = e.target.value
+    setPreciosLocal(nuevosPrecios)
+  }
 
   const handleSave = () => {
-    // Verificar si todos los valores son válidos
-    if (!preciosLocal["10"] || !preciosLocal["15"] || !preciosLocal["20"] || !preciosLocal["25"] || !preciosLocal["30"]) {
-      alert("Por favor ingrese valores válidos para todos los campos.");
-      return;
+    // Verificamos que ningun precio sea vacio 
+    if (preciosLocal.some(p => !p.precio || isNaN(p.precio))) {
+      alert("Por favor ingrese todos los precios correctamente.")
+      return
     }
 
-    // Guardar los precios modificados
-    onSave({
-      "10": Number.parseInt(preciosLocal["10"]),
-      "15": Number.parseInt(preciosLocal["15"]),
-      "20": Number.parseInt(preciosLocal["20"]),
-      "25": Number.parseInt(preciosLocal["25"]),
-      "30": Number.parseInt(preciosLocal["30"]),
-    });
+    // Convertimos los precios a enteros antes de guardar
+    const preciosParseados = preciosLocal.map(p => ({
+      cuadras: p.cuadras,
+      precio: parseInt(p.precio),
+    }))
 
-    onClose();
-  };
+    onSave(preciosParseados)
+    onClose()
+  }
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="modal-backdrop">
       <div className="modal">
-        {/* Botón de cierre en la parte superior */}
         <button className="close-button" onClick={onClose}>
           <FaTimes />
         </button>
 
         <h2>Configurar Precios</h2>
 
-        <div className="form-group">
-          <label>Precio hasta 10 cuadras ($):</label>
-          <input
-            type="number"
-            value={preciosLocal["10"]}
-            onChange={handleInputChange("10")}
-            min="0"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Precio hasta 15 cuadras ($):</label>
-          <input
-            type="number"
-            value={preciosLocal["15"]}
-            onChange={handleInputChange("15")}
-            min="0"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Precio hasta 20 cuadras ($):</label>
-          <input
-            type="number"
-            value={preciosLocal["20"]}
-            onChange={handleInputChange("20")}
-            min="0"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Precio hasta 25 cuadras ($):</label>
-          <input
-            type="number"
-            value={preciosLocal["25"]}
-            onChange={handleInputChange("25")}
-            min="0"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Precio para más de 25 cuadras ($):</label>
-          <input
-            type="number"
-            value={preciosLocal["30"]}
-            onChange={handleInputChange("30")}
-            min="0"
-          />
-        </div>
+        {preciosLocal.map((item, index) => (
+          <div className="form-group" key={item.cuadras}>
+            <label>
+              Precio hasta {item.cuadras === 30 ? "mas de 25" : item.cuadras} cuadras ($):
+            </label>
+            <input
+              type="number"
+              value={item.precio}
+              onChange={handleInputChange(index)}
+              min="0"
+            />
+          </div>
+        ))}
 
         <div className="modal-footer">
           <button
             className="button button-primary"
             onClick={handleSave}
-            style={{ width: '100%' }} // Aseguramos que el botón de guardar ocupe todo el ancho
+            style={{ width: '100%' }}
           >
             Guardar
           </button>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default PriceSettingsModal;
+export default PriceSettingsModal
