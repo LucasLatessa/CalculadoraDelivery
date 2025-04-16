@@ -57,6 +57,7 @@ function Home() {
               tipo_ubicacion: results[0].types.join(", "),
               status: "exitosa",
             };
+            console.log("Geocodificación exitosa:", geocodeData)
             logConsulta(direccion, geocodeData);
             resolve(results[0].geometry.location)
           } else {
