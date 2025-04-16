@@ -7,22 +7,16 @@ const app = express()
 const port = 3001
 const allowedOrigins = ['https://speziadelivery.vercel.app'];
 
-const corsOptions = {
+app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) {
-      return callback(new Error('Acceso no permitido'), false);
-    }
+    // Permite requests sin origin (como postman o curl) o si el origin esta en la lista
     if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+      callback(null, true);
     } else {
-      return callback(new Error('Acceso no permitido'), false);
+      callback(new Error('No permitido por CORS'));
     }
-  },
-  methods: 'GET,POST',
-  allowedHeaders: 'Content-Type'
-};
-
-app.use(cors())
+  }
+}));
 app.use(express.json())
 
 // Obtener precios desde la base de datos
@@ -125,5 +119,5 @@ const guardarLog = async (log, res) => {
 };
 
 app.listen(port, () => {
-  console.log(`Servidor backend corriendo en http://localhost:${port}`)
+  console.log(`Servidor backend corriendo en ${port}`)
 });
