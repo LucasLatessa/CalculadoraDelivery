@@ -13,6 +13,7 @@ const Logs = () => {
           throw new Error("Error al obtener los logs");
         }
         const data = await response.json();
+        console.log(data);
         setLogs(data);
       } catch (err) {
         setError(err.message);
