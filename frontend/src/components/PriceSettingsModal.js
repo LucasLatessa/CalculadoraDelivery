@@ -42,6 +42,7 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
 
   return (
     <div className="modal-backdrop">
+      {console.log(preciosLocal)}
       <div className="modal">
         {/* Botón de cierre en la parte superior */}
         <button className="close-button" onClick={onClose}>
