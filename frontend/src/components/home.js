@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LoadScript} from "@react-google-maps/api"
-import { obtenerPrecios, actualizarPrecios, logConsulta } from "../services/backend";
+import { fetchPrecios, savePrecios, saveLog  } from "../services/supabaseService";
 import MapaConRuta from "./mapaConRuta"
 import PriceSettingsModal from "./PriceSettingsModal";
 import { FaTrashAlt } from "react-icons/fa"
@@ -28,7 +28,7 @@ function Home() {
  
       const cargarPrecios = async () => {
         try {
-          const preciosData = await obtenerPrecios();
+          const preciosData = await fetchPrecios();
           setPrecios(preciosData);
         } catch {
           setError("Error al obtener los precios.");
@@ -37,7 +37,7 @@ function Home() {
 
     const guardarPrecios = async (nuevosPrecios) => {
         try {
-          await actualizarPrecios(nuevosPrecios);
+          await savePrecios(nuevosPrecios);
           await cargarPrecios();
           setResultado(null);
         } catch {
@@ -53,11 +53,11 @@ function Home() {
             const geocodeData = {
               direccion_ingresada: direccion,
               direccion_geocodificada: results[0].formatted_address,
-              coordenadas: results[0].geometry.location,
+              long_lat: results[0].geometry.location.lng() + ", " + results[0].geometry.location.lat(),
               tipo_ubicacion: results[0].types.join(", "),
               status: "exitosa",
             };
-            logConsulta(direccion, geocodeData);
+            saveLog (geocodeData);
             resolve(results[0].geometry.location)
           } else {
             const geocodeError = {
@@ -65,7 +65,7 @@ function Home() {
               status: "error",
               error: "No se pudo geocodificar la direccion",
             };
-            logConsulta(direccion, geocodeError);
+            saveLog (geocodeError);
             reject(new Error("No se pudo geocodificar la direccion"))
           }
         })

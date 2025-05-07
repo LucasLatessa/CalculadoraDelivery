@@ -46,7 +46,7 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
         {preciosLocal.map((item, index) => (
           <div className="form-group" key={item.cuadras}>
             <label>
-              Precio hasta {item.cuadras === 30 ? "mas de 25" : item.cuadras} cuadras ($):
+              Precio  {item.cuadras === 30 ? "mas de 25" : `hasta ${item.cuadras}`} cuadras ($):
             </label>
             <input
               type="number"

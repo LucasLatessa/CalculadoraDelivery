@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {obtenerLogs} from "../services/backend";
+import {fetchLogs} from "../services/supabaseService";
 const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
@@ -7,11 +7,12 @@ const Logs = () => {
   useEffect(() => {
     const cargarLogs = async () => {
       try {
-        const data = await obtenerLogs();
+        const data = await fetchLogs();
         setLogs(data);
         console.log(data);
       } catch (error) {
-        console.error('Error al cargar logs:', error);
+        setError("Error al cargar los logs"); 
+        console.error('Error al cargar los logs:', error);
       }
     };
   
@@ -20,7 +21,6 @@ const Logs = () => {
   return (
     <div>
       <h2>📜 Logs de Consultas</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
       <table border="1" cellPadding="10">
         <thead>
           <tr>
@@ -53,6 +53,7 @@ const Logs = () => {
           ))}
         </tbody>
       </table>
+      {error && <p style={{ textAlign: "center",color: "red" }}>{error}</p>}
     </div>
   );
 };

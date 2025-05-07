@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LoadScript, GoogleMap, Marker, DirectionsRenderer } from "@react-google-maps/api"
-import { obtenerPrecios, actualizarPrecios } from "../services/backend";
+import { fetchPrecios, savePrecios } from "../services/supabaseService";
 import MapaConRuta from "./mapaConRuta"
 import PriceSettingsModal from "./PriceSettingsModal";
 
@@ -25,7 +25,7 @@ function Calculadora() {
     
     const cargarPrecios = async () => {
         try {
-          const preciosData = await obtenerPrecios();
+          const preciosData = await fetchPrecios();
           setPrecios(preciosData);
         } catch {
           setError("Error al obtener los precios.");
@@ -34,7 +34,7 @@ function Calculadora() {
 
     const guardarPrecios = async (nuevosPrecios) => {
         try {
-          await actualizarPrecios(nuevosPrecios);
+          await savePrecios(nuevosPrecios);
           await cargarPrecios();
           setResultado(null);
         } catch {

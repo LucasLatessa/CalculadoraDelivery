@@ -1,4 +1,4 @@
-import { GoogleMap, LoadScript, DirectionsRenderer } from "@react-google-maps/api"
+import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api"
 const ORIGEN_COORDENADAS = { lat: -34.9003698, lng: -60.0210871 } // Gral. Pinto 58, Chivilcoy
 
 const MapaConRuta = ({ directions }) => {

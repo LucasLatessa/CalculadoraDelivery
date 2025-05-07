@@ -5,6 +5,7 @@
   "dependencies": {
     "@mapbox/polyline": "^1.2.1",
     "@react-google-maps/api": "^2.20.6",
+    "@supabase/supabase-js": "^2.49.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
