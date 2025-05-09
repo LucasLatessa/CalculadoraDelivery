@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const cors = require('cors')
 const serverless = require('serverless-http') // necesario para adaptar express
-
+ 
 const app = express()
 
 const allowedOrigins = ['https://calculadora-delivery.vercel.app']
