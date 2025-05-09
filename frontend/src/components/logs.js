@@ -3,11 +3,11 @@ import {obtenerLogs} from "../services/backend";
 const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
-
+  const token = localStorage.getItem('token'); 
   useEffect(() => {
     const cargarLogs = async () => {
       try {
-        const data = await obtenerLogs();
+        const data = await obtenerLogs(token);
         setLogs(data);
         console.log(data);
       } catch (error) {

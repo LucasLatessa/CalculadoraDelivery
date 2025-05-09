@@ -86,16 +86,6 @@ body {
   background-color: #45a049;
 }
 
-.button-secondary {
-  background-color: #3498db;
-  color: white;
-  margin-top: 10px;
-}
-
-.button-secondary:hover {
-  background-color: #2980b9;
-}
-
 /* Loader */
 .loader {
   border: 4px solid #f3f3f3;

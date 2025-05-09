@@ -1,63 +1,52 @@
-export async function calcularCuadras(origen, destino, apiKey) {
-    try {
-        const directionsUrl = `https://routes.googleapis.com/directions/v2:computeRoutes`;
-        const response = await fetch(directionsUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Goog-Api-Key": apiKey,
-                "X-Goog-FieldMask": "routes.distanceMeters,routes.legs.startLocation,routes.legs.endLocation"
-            },
-            body: JSON.stringify({
-                origin: { address: origen },
-                destination: { address: destino },
-                travelMode: "DRIVE"
-            })
-        });
+import {logConsulta } from "../services/backend";
 
-        const data = await response.json();
-        
-        if (!data.routes || data.routes.length === 0) {
-            console.error("No se encontraron rutas.");
-            return { cuadras: null, direccionDestino: "No disponible" };
-        }
-
-        const route = data.routes[0];
-        const distanciaMetros = route.distanceMeters || 0;
-        const cuadras = Math.round(distanciaMetros / 100);
-
-        const endLocation = route.legs?.[0]?.endLocation.latLng;
-        
-        // Si hay coordenadas, buscamos la dirección con Geocoding API
-        let direccionDestino = "No disponible";
-        if (endLocation) {
-            direccionDestino = await obtenerDireccion(endLocation.latitude, endLocation.longitude, apiKey);
-        }
-
-
-        return [cuadras, direccionDestino];
-    } catch (error) {
-        console.error("Error al calcular las cuadras:", error);
-        return [null, null]; ;
+/* Geocodifica una direccion y devuelve las coordenadas (latitud y longitud). */
+export async function  obtenerCoordenadas (token, direccion, a) {
+      return new Promise((resolve, reject) => {
+        const geocoder = new window.google.maps.Geocoder()
+        geocoder.geocode({ address: direccion }, (results, status) => {
+          if (status === "OK") {
+            const geocodeData = {
+              direccion_ingresada: direccion,
+              direccion_geocodificada: results[0].formatted_address,
+              coordenadas: results[0].geometry.location,
+              tipo_ubicacion: results[0].types.join(", "),
+              status: "exitosa",
+            };
+            logConsulta(token,direccion, geocodeData);
+            resolve(results[0].geometry.location)
+          } else {
+            const geocodeError = {
+              direccion_ingresada: direccion,
+              status: "error",
+              error: "No se pudo geocodificar la direccion",
+            };
+            logConsulta(direccion, geocodeError);
+            reject(new Error("No se pudo geocodificar la direccion"))
+          }
+        })
+      })
     }
-}
 
-// Función para obtener dirección desde coordenadas con Geocoding API
-async function obtenerDireccion(lat, lng, apiKey) {
-    try {
-        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
-        const response = await fetch(geocodeUrl);
-        const data = await response.json();
-
-        if (data.status === "OK" && data.results.length > 0) {
-            return data.results[0].formatted_address; // Dirección más relevante
-        } else {
-            console.warn("No se encontró dirección para las coordenadas.");
-            return "Dirección no encontrada";
+/*  Calcula la distancia entre dos ubicaciones (origen y destino) en metros */
+export async function calcularDistancia (origen, destino) {
+          return new Promise((resolve, reject) => {
+            const service = new window.google.maps.DistanceMatrixService()
+            service.getDistanceMatrix(
+              {
+                origins: [origen],
+                destinations: [destino],
+                travelMode: window.google.maps.TravelMode.DRIVING,
+                unitSystem: window.google.maps.UnitSystem.METRIC,
+              },
+              (response, status) => {
+                if (status === "OK") {
+                  const metros = response.rows[0].elements[0].distance.value
+                  resolve(metros)
+                } else {
+                  reject(new Error("Error al calcular distancia"))
+                }
+              }
+            )
+          })
         }
-    } catch (error) {
-        console.error("Error al obtener la dirección:", error);
-        return "Error obteniendo dirección";
-    }
-}
-
