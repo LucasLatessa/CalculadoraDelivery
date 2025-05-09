@@ -1,13 +1,11 @@
 {
-  "name": "backend",
+  "name": "calculadora-delivery-backend",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node api/index.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "fs": "^0.0.1-security"
+    "express": "^4.18.2"
   }
 }
