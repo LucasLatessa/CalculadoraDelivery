@@ -6,7 +6,7 @@ import { LoadScript} from "@react-google-maps/api"
 import '../styles/login.css';
 const CIUDAD = ", Chivilcoy, Buenos Aires, Argentina"
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
+ 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
