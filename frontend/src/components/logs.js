@@ -17,6 +17,19 @@ const Logs = () => {
   
     cargarLogs();
   }, []);
+
+  const formatearFecha = (fechaUTC) => {
+    return new Date(fechaUTC + 'Z').toLocaleString('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
   return (
     <div>
       <h2>📜 Logs de Consultas</h2>
@@ -35,16 +48,7 @@ const Logs = () => {
           {logs.map((log, index) => (
 
             <tr key={index}>
-              <td>{new Date(log.fecha).toLocaleString('es-AR', {
-                  timeZone: 'America/Argentina/Buenos_Aires',
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: false,
-                })}
-              </td>
+              <td>{formatearFecha(log.fecha)}</td>
               <td>{log.direccion_ingresada}</td>
               <td>{log.direccion_geocodificada}</td>
               <td>{log.long_lat}</td>
