@@ -17,7 +17,7 @@ function Calculadora() {
     const [precios, setPrecios] = useState(null);
     const [origen, setOrigen] = useState(null);
     const [modalOrigenAbierto, setModalOrigenAbierto] = useState(false); // Estado para el modal de origen
-    const [modalAbierto, setModalAbierto] = useState(false);
+    const [modalPreciosAbierto, setModalPreciosAbierto] = useState(false);
     const [resultado, setResultado] = useState(null)
     const [cargando, setCargando] = useState(false)
     const [error, setError] = useState("")
@@ -41,6 +41,9 @@ function Calculadora() {
         try {
           const preciosData = await obtenerPrecios(); 
           setPrecios(preciosData);
+          if (preciosData.length === 0) {
+            setModalPreciosAbierto(true);
+        } 
         } catch {
           setError("Error al obtener los precios.");
         }
@@ -144,7 +147,7 @@ function Calculadora() {
     return (
         <div className="app">
              <div className="config-button-container">
-                <button className="button button-secondary" onClick={() => setModalAbierto(true)}>
+                <button className="button button-secondary" onClick={() => setModalPreciosAbierto(true)}>
                 Cambiar Costos de Envio
                 </button>
                 <button className="button button-secondary" onClick={() => setModalOrigenAbierto(true)}>
@@ -205,10 +208,10 @@ function Calculadora() {
             <MapaConRuta directions={directions} />
             </LoadScript>
         
-        {modalAbierto && (
+        {modalPreciosAbierto && (
         <PriceSettingsModal
-          isOpen={modalAbierto}
-          onClose={() => setModalAbierto(false)}
+          isOpen={modalPreciosAbierto}
+          onClose={() => setModalPreciosAbierto(false)}
           precios={precios}
           onSave={guardarPrecios}
         />

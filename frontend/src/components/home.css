@@ -8,6 +8,67 @@
   position: relative;
 }
 
+/* Title */
+.home-title {
+  font-size: 1.8rem;
+  color: #333333;
+  margin-bottom: 15px;
+}
+
+/* Description */
+.home-description {
+  font-size: 1rem;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+/* Buttons container */
+.home-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Buttons */
+.button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-primary {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background-color: #0056b3;
+}
+
+.button-secondary {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+.button-secondary:hover {
+  background-color: #5a6268;
+}
+
+.button-tertiary {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.button-tertiary:hover {
+  background-color: #c82333;
+}
+
+
+
+
 .form-group label {
   display: block;
   font-weight: bold;
@@ -33,16 +94,6 @@
   position: relative;
 }
 
-.button-secondary {
-  background-color: #6c757d;
-  color: #fff;
-  padding: 5px 10px;
-  font-size: 14px;
-}
-
-.button-secondary:hover {
-  background-color: #5a6268;
-}
 .button-agregar {
   margin-top: 10px;
   padding: 7px 10px;

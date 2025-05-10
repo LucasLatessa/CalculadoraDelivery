@@ -8,6 +8,11 @@ const manejarError = (error, mensaje) => {
   if (error) throw new Error(mensaje);
 };
 
+export const verificarSesion = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  return !!session?.user; // true si hay usuario, false si no
+};
+
 export const signUp = async (email, password, origen) => {
   const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     email,
@@ -15,7 +20,6 @@ export const signUp = async (email, password, origen) => {
   })
 
   if (signUpError) throw new Error("Error al registrar el usuario")
-    console.log("signUpData:", signUpData)
   const userId = signUpData.user.id
 
   // Insertar datos adicionales en tabla usuarios
@@ -29,10 +33,19 @@ export const signUp = async (email, password, origen) => {
 }
 
 export const login = async (email, password) => {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-  manejarError(error, "Error al iniciar sesion");
-  return data
-}
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  // Manejo de errores
+  if (error) {
+    manejarError(error, "Error al iniciar sesion");
+    throw error; 
+  }
+  const token = data.session.access_token;
+  if (!token) {
+    throw new Error("No se pudo obtener el token de acceso.");
+  }
+  return token; 
+};
 
 const getUserId = async () => {
   const { data: { user }, error } = await supabase.auth.getUser()

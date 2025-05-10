@@ -3,7 +3,6 @@ import {obtenerLogs} from "../services/supabaseClient";
 const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
-  const token = localStorage.getItem('token'); 
   useEffect(() => {
     const cargarLogs = async () => {
       try {
@@ -11,6 +10,7 @@ const Logs = () => {
         setLogs(data);
         console.log(data);
       } catch (error) {
+        setError('Error al cargar logs:', error);
         console.error('Error al cargar logs:', error);
       }
     };

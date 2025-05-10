@@ -1,45 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { logout, verificarSesion } from "../services/supabaseClient";
 
 const Home = () => {
   const navigate = useNavigate();
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLogged(!!token); // Verifica si el token existe
+    const checkSession = async () => {
+      const logueado = await verificarSesion();
+      setIsLogged(logueado);
+    };
+
+    checkSession();
   }, []);
 
   const handleNavigate = (path) => {
     navigate(path);
   };
-  const handleLogout = () => {
-    // Eliminar el token del almacenamiento local
-    localStorage.removeItem('token');
+  const handleLogout = async() => {
+    await logout();
     window.location.reload();
   };
-
-  if (!isLogged) {
+ if (!isLogged) {
     return (
-      <div className="home-container">
-        <h1>Bienvenido a Calculadora Delivery</h1>
-        <p>Por favor, inicia sesión para acceder a las funcionalidades.</p>
+      <main>
+        <h1 className="home-title">Bienvenido a Calculadora Delivery</h1>
+        <p className="home-description">
+          Por favor, inicia sesión para acceder a las funcionalidades.
+        </p>
         <button
           className="button button-primary"
           onClick={() => handleNavigate('/login')}
         >
           Iniciar Sesión
         </button>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="home-container">
-      <h1>Bienvenido a Calculadora Delivery</h1>
-      <p>Gestiona tus precios y direcciones de manera sencilla.</p>
-
-      <div className="home-buttons">
+    <main >
+      <h1 className="home-title">Bienvenido a Calculadora Delivery</h1>
+      <p className="home-description">
+        Gestiona tus precios y direcciones de manera sencilla.
+      </p>
+      <nav className="home-buttons">
         <button
           className="button button-primary"
           onClick={() => handleNavigate('/calculator')}
@@ -56,10 +62,10 @@ const Home = () => {
           className="button button-tertiary"
           onClick={handleLogout}
         >
-          Cerrar sesion
+          Cerrar Sesión
         </button>
-      </div>
-    </div>
+      </nav>
+    </main>
   );
 };
 

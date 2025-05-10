@@ -14,18 +14,19 @@ const Login = () => {
     setError('');
 
     try {
-      // Llamar a la funcion para iniciar sesion
-      const { token } = await login(email, password);
-
-      // Guardar el token en el almacenamiento local
-      localStorage.setItem('token', token);
-
-      // Redirigir al usuario a la página principal o dashboard
-      navigate('/');
+      await login(email, password);
+      const parsedToken = JSON.parse(localStorage.getItem('sb-djszgyqzdjxncsvybwfn-auth-token'));
+      const access_token = parsedToken?.access_token;
+      console.log(access_token);
+      if (access_token) { 
+        navigate('/');
+      } else {
+        setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+      }
     } catch (err) {
-      setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+      setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
     }
-  };
+};
 
   return (
     <div className="login-container">

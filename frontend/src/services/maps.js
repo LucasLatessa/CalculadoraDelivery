@@ -2,7 +2,6 @@ import {logConsulta } from "../services/supabaseClient";
 
 /* Geocodifica una direccion y devuelve las coordenadas (latitud y longitud). */
 export async function  obtenerCoordenadas ( direccion) {
-      console.log( direccion)
       return new Promise((resolve, reject) => {
         const geocoder = new window.google.maps.Geocoder()
         geocoder.geocode({ address: direccion }, (results, status) => {
