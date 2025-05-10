@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { iniciarSesion } from '../services/backend';
+import { login } from '../services/supabaseClient';
 import "../styles/login.css"
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
 
     try {
       // Llamar a la funcion para iniciar sesion
-      const { token } = await iniciarSesion(email, password);
+      const { token } = await login(email, password);
 
       // Guardar el token en el almacenamiento local
       localStorage.setItem('token', token);

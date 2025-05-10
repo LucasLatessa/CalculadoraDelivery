@@ -1,7 +1,8 @@
-import {logConsulta } from "../services/backend";
+import {logConsulta } from "../services/supabaseClient";
 
 /* Geocodifica una direccion y devuelve las coordenadas (latitud y longitud). */
-export async function  obtenerCoordenadas (token, direccion, a) {
+export async function  obtenerCoordenadas ( direccion) {
+      console.log( direccion)
       return new Promise((resolve, reject) => {
         const geocoder = new window.google.maps.Geocoder()
         geocoder.geocode({ address: direccion }, (results, status) => {
@@ -13,7 +14,7 @@ export async function  obtenerCoordenadas (token, direccion, a) {
               tipo_ubicacion: results[0].types.join(", "),
               status: "exitosa",
             };
-            logConsulta(token,direccion, geocodeData);
+            //logConsulta(direccion, geocodeData);
             resolve(results[0].geometry.location)
           } else {
             const geocodeError = {
@@ -21,7 +22,7 @@ export async function  obtenerCoordenadas (token, direccion, a) {
               status: "error",
               error: "No se pudo geocodificar la direccion",
             };
-            logConsulta(direccion, geocodeError);
+            //logConsulta(direccion, geocodeError);
             reject(new Error("No se pudo geocodificar la direccion"))
           }
         })

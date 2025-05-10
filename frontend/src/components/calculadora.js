@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LoadScript} from "@react-google-maps/api"
-import { obtenerPrecios, actualizarPrecios, obtenerDirecOrigen, actualizarUbicacion } from "../services/backend";
+import { obtenerPrecios, actualizarPrecios, obtenerDirecOrigen, actualizarDirecOrigen } from "../services/supabaseClient";
 import MapaConRuta from "./mapaConRuta"
 import PriceSettingsModal from "./PriceSettingsModal";
 import OrigenSettingsModal from "./OrigenSettingsModal";
@@ -23,7 +23,6 @@ function Calculadora() {
     const [error, setError] = useState("")
     const [carrito, setCarrito] = useState([])
     const [directions, setDirections] = useState(null) 
-    const token = localStorage.getItem('token'); 
     const libraries = ['places']; 
     useEffect(() => {
         cargarPrecios();
@@ -32,7 +31,7 @@ function Calculadora() {
     
       const cargarOrigen = async () => {
         try {
-          const origen = await obtenerDirecOrigen(token); 
+          const origen = await obtenerDirecOrigen(); 
           setOrigen(origen);
         } catch {
           setError("Error al obtener la direccion origen.");
@@ -40,8 +39,7 @@ function Calculadora() {
       }
       const cargarPrecios = async () => {
         try {
-          const token = localStorage.getItem('token'); 
-          const preciosData = await obtenerPrecios(token); 
+          const preciosData = await obtenerPrecios(); 
           setPrecios(preciosData);
         } catch {
           setError("Error al obtener los precios.");
@@ -50,8 +48,7 @@ function Calculadora() {
 
     const guardarPrecios = async (nuevosPrecios) => {
         try {
-          const token = localStorage.getItem('token');
-          await actualizarPrecios(nuevosPrecios, token);
+          await actualizarPrecios(nuevosPrecios);
           await cargarPrecios();
           setResultado(null);
         } catch {
@@ -60,8 +57,7 @@ function Calculadora() {
       };
       const guardarOrigen =async (nuevaUbicacion) => {
         try {
-          const token = localStorage.getItem('token');
-          await actualizarUbicacion(nuevaUbicacion, token);
+          await actualizarDirecOrigen(nuevaUbicacion);
           await cargarOrigen();
           setResultado(null);
         } catch {
@@ -83,7 +79,7 @@ function Calculadora() {
   
       try {
         const direccionCompleta = direccion.trim() + CIUDAD
-        const destino = await obtenerCoordenadas(token,direccionCompleta)
+        const destino = await obtenerCoordenadas(direccionCompleta)
         const origenCoordenadas = { 
           lat: parseFloat(origen.origen_lat), 
           lng: parseFloat(origen.origen_lng) 

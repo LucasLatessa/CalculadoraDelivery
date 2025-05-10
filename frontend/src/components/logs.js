@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {obtenerLogs} from "../services/backend";
+import {obtenerLogs} from "../services/supabaseClient";
 const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
@@ -7,7 +7,7 @@ const Logs = () => {
   useEffect(() => {
     const cargarLogs = async () => {
       try {
-        const data = await obtenerLogs(token);
+        const data = await obtenerLogs();
         setLogs(data);
         console.log(data);
       } catch (error) {
