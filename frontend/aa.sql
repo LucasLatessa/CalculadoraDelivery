@@ -1,6 +1,6 @@
 -- Tabla usuarios
 create table usuarios (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key ,
   email text not null,
   origen_direc text,
   origen_lat numeric,
