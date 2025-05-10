@@ -10,7 +10,7 @@ const Logs = () => {
         setLogs(data);
         console.log(data);
       } catch (error) {
-        setError('Error al cargar logs:', error);
+        setError('Error al cargar logs');
         console.error('Error al cargar logs:', error);
       }
     };

@@ -17,7 +17,6 @@ const Login = () => {
       await login(email, password);
       const parsedToken = JSON.parse(localStorage.getItem('sb-djszgyqzdjxncsvybwfn-auth-token'));
       const access_token = parsedToken?.access_token;
-      console.log(access_token);
       if (access_token) { 
         navigate('/');
       } else {

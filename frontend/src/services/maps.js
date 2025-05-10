@@ -13,7 +13,7 @@ export async function  obtenerCoordenadas ( direccion) {
               tipo_ubicacion: results[0].types.join(", "),
               status: "exitosa",
             };
-            //logConsulta(direccion, geocodeData);
+            logConsulta(direccion, geocodeData);
             resolve(results[0].geometry.location)
           } else {
             const geocodeError = {
@@ -21,7 +21,7 @@ export async function  obtenerCoordenadas ( direccion) {
               status: "error",
               error: "No se pudo geocodificar la direccion",
             };
-            //logConsulta(direccion, geocodeError);
+            logConsulta(direccion, geocodeError);
             reject(new Error("No se pudo geocodificar la direccion"))
           }
         })

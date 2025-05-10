@@ -195,7 +195,7 @@ export const obtenerLogs = async () => {
     .from('logs')
     .select('*')
     .eq('usuario_id', userId)
-    .order('created_at', { ascending: false })
+    .order('fecha', { ascending: false })
 
   manejarError(error, "Error al obtener logs");
   return data
