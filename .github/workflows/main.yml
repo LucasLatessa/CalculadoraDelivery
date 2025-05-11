@@ -10,5 +10,7 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
+      - name: Mostrar hora de ejecucion
+        run: date
       - name: Curl to Glitch API
         run: curl -s https://spezia.glitch.me/ping
