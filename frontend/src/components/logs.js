@@ -16,6 +16,7 @@ const Logs = () => {
         // Ordenar los logs por fecha (más reciente primero)
         const sortedLogs = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
         setLogs(sortedLogs);
+        console.log(sortedLogs);
       } catch (err) {
         setError(err.message);
       }
