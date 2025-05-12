@@ -4,7 +4,6 @@ const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
 
-  
   useEffect(() => {
     const fetchLogs = async () => {
       try {
@@ -13,8 +12,10 @@ const Logs = () => {
           throw new Error("Error al obtener los logs");
         }
         const data = await response.json();
-        console.log(data);
-        setLogs(data);
+
+        // Ordenar los logs por fecha (más reciente primero)
+        const sortedLogs = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+        setLogs(sortedLogs);
       } catch (err) {
         setError(err.message);
       }
@@ -23,6 +24,17 @@ const Logs = () => {
     fetchLogs();
   }, []);
 
+  const formatTime = (fecha) => {
+    const date = new Date(fecha);
+    return date.toLocaleString([], {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   return (
     <div>
       <h2>📜 Logs de Consultas</h2>
@@ -30,7 +42,7 @@ const Logs = () => {
       <table border="1" cellPadding="10">
         <thead>
           <tr>
-            <th>Fecha</th>
+            <th>Fecha</th> 
             <th>Dirección Ingresada</th>
             <th>Dirección Geocodificada</th>
             <th>Tipo</th>
@@ -40,7 +52,7 @@ const Logs = () => {
         <tbody>
           {logs.map((log, index) => (
             <tr key={index}>
-              <td>{log.fecha}</td>
+              <td>{formatTime(log.fecha)}</td> {/* Formatear la fecha */}
               <td>{log.direccion_ingresada}</td>
               <td>{log.direccion_geocodificada}</td>
               <td>{log.tipo}</td>
