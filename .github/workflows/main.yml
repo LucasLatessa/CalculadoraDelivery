@@ -14,4 +14,4 @@ jobs:
       - name: Mostrar hora de ejecucion
         run: date
       - name: Curl to Glitch API
-        run: curl -s https://spezia.glitch.me/ping
+        run: curl -s https://spezia.glitch.me/
