@@ -146,4 +146,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor backend corriendo en http://localhost:${port}`)
 })
-
