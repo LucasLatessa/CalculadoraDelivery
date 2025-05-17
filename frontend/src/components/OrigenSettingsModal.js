@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { FaTimes } from 'react-icons/fa';
 import { obtenerCoordenadas } from "../services/maps";
+import '../styles/PriceSettingsModal.css'; // Asegurate de importar los estilos
 
 const OrigenSettingsModal = ({ isOpen, onClose, onSave, origenActual }) => {
   const [direccion, setDireccion] = useState(origenActual.origen_direc);
@@ -10,16 +12,16 @@ const OrigenSettingsModal = ({ isOpen, onClose, onSave, origenActual }) => {
     setError("");
     setCargando(true);
     try {
-      const coordenadas = await obtenerCoordenadas(direccion); // Llama a la función para obtener coordenadas
+      const coordenadas = await obtenerCoordenadas(direccion);
       const origenData = {
-        origen_direc: direccion, 
-        origen_lat: coordenadas.lat(), 
-        origen_lng: coordenadas.lng(), 
+        origen_direc: direccion,
+        origen_lat: coordenadas.lat(),
+        origen_lng: coordenadas.lng(),
       };
       onSave(origenData);
-      onClose(); // Cierra el modal
+      onClose();
     } catch (err) {
-      setError("No se pudo obtener las coordenadas. Verifique la dirección ingresada.");
+      setError("No se pudo obtener las coordenadas. Verifique la direccion ingresada.");
     } finally {
       setCargando(false);
     }
@@ -28,28 +30,34 @@ const OrigenSettingsModal = ({ isOpen, onClose, onSave, origenActual }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal">
-        <h2>Cambiar Ubicación de Origen</h2>
+    <div className="price-modal-backdrop">
+      <div className="price-modal">
+        <button className="price-modal-close" onClick={onClose}>
+          <FaTimes />
+        </button>
+
+        <h2 className="price-modal-title">Cambiar Ubicacion de Origen</h2>
+
         <div className="form-group">
-          <label htmlFor="direccion">Dirección:</label>
+          <label htmlFor="direccion">Direccion:</label>
           <input
             id="direccion"
             type="text"
-            placeholder="Ingrese una dirección"
+            placeholder="Ingrese una direccion"
             value={direccion}
             onChange={(e) => setDireccion(e.target.value)}
             className="direccion-input"
           />
         </div>
+
         {error && <p className="error-message">{error}</p>}
         {cargando && <p className="loading-message">Obteniendo coordenadas...</p>}
-        <button className="button button-primary" onClick={handleSave} disabled={cargando}>
-          Guardar
-        </button>
-        <button className="button button-secondary" onClick={onClose} disabled={cargando}>
-          Cancelar
-        </button>
+
+        <div className="price-modal-footer">
+          <button className="price-modal-save" onClick={handleSave} disabled={cargando}>
+            Guardar
+          </button>
+        </div>
       </div>
     </div>
   );

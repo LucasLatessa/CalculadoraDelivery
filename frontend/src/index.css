@@ -66,25 +66,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Botones */
-.button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.button-primary {
-  background-color: #4caf50;
-  color: white;
-  width: 100%;
-}
-
-.button-primary:hover {
-  background-color: #45a049;
-}
 
 /* Loader */
 .loader {

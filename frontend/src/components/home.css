@@ -32,6 +32,7 @@
 /* Buttons */
 .button {
   padding: 10px 15px;
+  margin: 3px;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
@@ -165,17 +166,17 @@
 .recorrido li {
   margin-bottom: 5px;
 }
-
 .config-button-container {
-  display: flex; 
+  display: flex;
   gap: 10px;
-  position: absolute;
-  top: -5%; 
-  right: -17%;
+  margin-top: -70px; 
+  margin-bottom: 10px;
 }
 
 .config-button-container .button {
-  flex: 1;
+  flex: 1; 
+  padding: 5px; 
+  font-size: 0.95rem; 
 }
 /* Animación del logo*/
 @keyframes App-logo-spin {

@@ -1,0 +1,72 @@
+.logs-container {
+  max-width: 90%;
+  padding: 0px 30px;
+  font-family: Arial, sans-serif;
+}
+
+.logs-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.logs-error {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logs-table-container {
+  overflow-x: auto;
+}
+
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.logs-table th,
+.logs-table td {
+  border: 1px solid #ddd;
+  padding: 12px 8px;
+  text-align: left;
+}
+
+.logs-table th {
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+}
+
+.logs-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.logs-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+@media (max-width: 768px) {
+  .logs-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .logs-table {
+    min-width: 600px;
+  }
+
+  .logs-title {
+    font-size: 20px;
+  }
+
+  .logs-table th,
+  .logs-table td {
+    padding: 10px 6px;
+    font-size: 13px;
+  }
+}

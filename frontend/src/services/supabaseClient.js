@@ -37,7 +37,7 @@ export const login = async (email, password) => {
 
   // Manejo de errores
   if (error) {
-    manejarError(error, "Error al iniciar sesion");
+    manejarError(error, "Credenciales inválidas. Por favor, inténtalo de nuevo.");
     throw error; 
   }
   const token = data.session.access_token;

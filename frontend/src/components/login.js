@@ -15,15 +15,13 @@ const Login = () => {
 
     try {
       await login(email, password);
-      const parsedToken = JSON.parse(localStorage.getItem('sb-djszgyqzdjxncsvybwfn-auth-token'));
+      const parsedToken = JSON.parse(localStorage.getItem('sb-vyftfmscngedshlqrqfm-auth-token'));
       const access_token = parsedToken?.access_token;
       if (access_token) { 
         navigate('/');
-      } else {
-        setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
       }
     } catch (err) {
-      setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+      setError(err.message);
     }
 };
 
