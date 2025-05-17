@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL_AUTH;
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY_AUTH;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const manejarError = (error, mensaje) => {
