@@ -10,7 +10,7 @@ const ORIGEN_COORDENADAS = { lat: -34.9003698, lng: -60.0210871 } // Gral. Pinto
 const CIUDAD = ", Chivilcoy, Buenos Aires, Argentina"
 const CUADRA_METROS = 100
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
+const libraries = ['places']; 
 function Home() {
     const [direccion, setDireccion] = useState("")
     const [precios, setPrecios] = useState(null);
@@ -20,7 +20,7 @@ function Home() {
     const [error, setError] = useState("")
     const [carrito, setCarrito] = useState([])
     const [directions, setDirections] = useState(null) 
-    const libraries = ['places']; 
+    
     useEffect(() => {
         cargarPrecios();
       }, []);

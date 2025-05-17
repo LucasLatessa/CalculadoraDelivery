@@ -22,8 +22,7 @@ export const savePrecios = async (nuevosPrecios) => {
   try {
     const { error } = await supabase
       .from('precios')
-      .delete()
-      .then(() => supabase.from('precios').upsert(nuevosPrecios));
+      .upsert(nuevosPrecios, { onConflict: ['cuadras'] });
     if (error) throw error;
     return { message: 'Precios actualizados correctamente' };
   } catch (error) {
@@ -35,7 +34,6 @@ export const savePrecios = async (nuevosPrecios) => {
 // Funcion envia la dirección y el status al backend
 export const saveLog = async (logData) => {
   try {
-    console.log(logData);
     const { error } = await supabase.from('logs').insert([logData]);
     if (error) throw error;
     return { message: 'Log guardado correctamente' };
