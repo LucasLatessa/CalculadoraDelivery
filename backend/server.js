@@ -2,30 +2,29 @@ const express = require('express')
 const fs = require('fs')
 const path = require('path')
 const cors = require('cors') 
-
+const originValidator = require('./originValidator');
 const app = express()
-const port = 3001
-const allowedOrigins = ['https://calculadora-delivery.vercel.app'];
+const port = process.env.PORT;
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) {
-      // Si no hay origen (acceso directo en el navegador), bloquear
-      return callback(new Error('Acceso no permitido'), false);
-    }
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Acceso no permitido'), false);
-    }
-  },
-  methods: 'GET,POST',
-  allowedHeaders: 'Content-Type'
-};
+app.use(cors())
+// Aplica el middleware a todas las rutas
+app.use(originValidator);
 
-app.use(cors(corsOptions));
 // Middleware para parsear el cuerpo de las solicitudes JSON
 app.use(express.json())
+// Middleware para loguear cada solicitud entrante
+app.use((req, res, next) => {
+  const inicio = new Date();
+  const fechaArgentina = inicio.toLocaleString('es-AR', {
+    timeZone: 'America/Argentina/Buenos_Aires'
+  });
+
+  res.on('finish', () => {
+    console.log(`[${fechaArgentina}] ${req.method} ${req.originalUrl} - ${res.statusCode}`);
+  });
+
+  next();
+});
 
 // Ruta para obtener los precios
 app.get('/precios', (req, res) => {
@@ -140,7 +139,11 @@ const guardarLog = (log, res) => {
     });
   });
 };
+app.get('/', (req, res) => {
+  res.send('Acceso permitido');
+});
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor backend corriendo en http://localhost:${port}`)
 })
+
