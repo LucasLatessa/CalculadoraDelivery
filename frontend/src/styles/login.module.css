@@ -1,0 +1,100 @@
+/* Estilos modernos y UX/UI para el login */
+.loginContainer {
+  max-width: 400px;
+  margin: 8vh auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(79,70,229,0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.7s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: none; }
+}
+.loginTitle {
+  text-align: center;
+  color: #007bff;
+  font-size: 2.1rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.loginForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.loginGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.loginLabel {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+.loginInput {
+  padding: 1rem;
+  border: 1.5px solid #c7d2fe;
+  border-radius: 0.6rem;
+  font-size: 1.08rem;
+  background-color: #f8fafc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.loginInput:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px #a5b4fc44;
+}
+.loginError {
+  color: #e74c3c;
+  font-size: 1rem;
+  text-align: center;
+  background: #fee2e2;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.7rem;
+}
+.loginButton {
+  padding: 1rem;
+  background: linear-gradient(90deg, #a8d0ff 0%, #007bff 100%);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.15rem;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.08);
+}
+.loginButton:hover {
+  background: linear-gradient(90deg, #6ea6ff 0%, #0056b3 100%);
+  box-shadow: 0 4px 16px rgba(67,56,202,0.13);
+}
+.loginFooter {
+  color: #888;
+  font-size: 0.98rem;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .loginContainer {
+    max-width: 80vw;
+    padding: 1.5rem ;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(79,70,229,0.08);
+  }
+  .loginTitle {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+  .loginButton {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+}

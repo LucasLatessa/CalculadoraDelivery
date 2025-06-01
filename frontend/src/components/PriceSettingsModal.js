@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTimes, FaPlus } from 'react-icons/fa';
-import '../styles/PriceSettingsModal.css';
+import styles from '../styles/PriceSettingsModal.module.css';
 
 function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
   const [preciosLocal, setPreciosLocal] = React.useState([]);
@@ -43,17 +43,17 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
   if (!isOpen) return null;
 
   return (
-    <div className="price-modal-backdrop">
-      <div className="price-modal">
-        <button className="price-modal-close" onClick={onClose}>
+    <div className={styles.priceModalBackdrop}>
+      <div className={styles.priceModal}>
+        <button className={styles.priceModalClose} onClick={onClose}>
           <FaTimes />
         </button>
 
-        <h2 className="price-modal-title">Configurar Precios</h2>
+        <h2 className={styles.priceModalTitle}>Configurar Precios</h2>
 
         {preciosLocal.map((item, index) => (
-          <div className="price-modal-row" key={index}>
-            <label className="price-modal-label">
+          <div className={styles.priceModalRow} key={index}>
+            <label className={styles.priceModalLabel}>
               Cuadras máx:
               <input
                 type="number"
@@ -64,21 +64,21 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
                   setPreciosLocal(nuevosPrecios);
                 }}
                 min="0"
-                className="price-modal-input"
+                className={styles.priceModalInput}
               />
             </label>
-            <label className="price-modal-label">
+            <label className={styles.priceModalLabel}>
               Precio ($):
               <input
                 type="number"
                 value={item.precio}
                 onChange={handleInputChange(index)}
                 min="0"
-                className="price-modal-input"
+                className={styles.priceModalInput}
               />
             </label>
             <button
-              className="price-modal-delete"
+              className={styles.priceModalDelete}
               onClick={() => handleDeletePrice(index)}
             >
               Eliminar
@@ -86,12 +86,12 @@ function PriceSettingsModal({ isOpen, onClose, precios, onSave }) {
           </div>
         ))}
 
-        <button className="price-modal-add" onClick={handleAddPrice}>
-          <FaPlus className="price-modal-add-icon" /> Agregar Nuevo Precio
+        <button className={styles.priceModalAdd} onClick={handleAddPrice}>
+          <FaPlus className={styles.priceModalAddIcon} /> Agregar Nuevo Precio
         </button>
 
-        <div className="price-modal-footer">
-          <button className="price-modal-save" onClick={handleSave}>
+        <div className={styles.priceModalFooter}>
+          <button className={styles.priceModalSave} onClick={handleSave}>
             Guardar
           </button>
         </div>

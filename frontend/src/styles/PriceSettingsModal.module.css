@@ -1,0 +1,118 @@
+.priceModalBackdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.priceModal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.5rem 2rem 1.5rem 2rem;
+  min-width: 340px;
+  max-width: 95vw;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.13);
+  position: relative;
+}
+
+.priceModalClose {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #888;
+}
+
+.priceModalTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #007bff;
+}
+
+.priceModalRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.priceModalLabel {
+  font-size: 1rem;
+  color: #333;
+  margin-right: 0.5rem;
+}
+
+.priceModalInput {
+  width: 80px;
+  padding: 0.4rem 0.6rem;
+  border: 1.5px solid #007bff;
+  border-radius: 6px;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+
+.priceModalDelete {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.98rem;
+  margin-left: 0.5rem;
+  transition: background 0.2s;
+}
+.priceModalDelete:hover {
+  background: #dc2626;
+}
+
+.priceModalAdd {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+.priceModalAdd:hover {
+  background: #0056b3;
+}
+
+.priceModalAddIcon {
+  font-size: 1.1rem;
+}
+
+.priceModalFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.7rem;
+}
+
+.priceModalSave {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.priceModalSave:hover {
+  background: #16a34a;
+}

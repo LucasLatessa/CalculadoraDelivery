@@ -5,7 +5,7 @@ import SignUp from "./components/signUp";
 import Home from "./components/home";
 import Calculadora from "./components/calculadora";
 import PriceSettingsModal from "./components/PriceSettingsModal";
-
+import './styles/base.css';
 function Main() {
   return (
     <Router>

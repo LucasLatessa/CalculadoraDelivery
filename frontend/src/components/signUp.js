@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../services/supabaseClient';
 import { obtenerCoordenadas } from '../services/maps';
-import { LoadScript} from "@react-google-maps/api"
-import '../styles/login.css';
+import { LoadScript } from "@react-google-maps/api";
+import styles from "../styles/login.module.css"; // Usar CSS Module
 const CIUDAD = ", Chivilcoy, Buenos Aires, Argentina"
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
  
@@ -43,42 +43,45 @@ const SignUp = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Registrarse</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Correo Electronico:</label>
+    <div className={styles.loginContainer}>
+      <h2 className={styles.loginTitle}>Registrarse</h2>
+      <form onSubmit={handleSubmit} className={styles.loginForm}>
+        <div className={styles.loginGroup}>
+          <label htmlFor="email" className={styles.loginLabel}>Correo Electrónico:</label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={styles.loginInput}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Contrasena:</label>
+        <div className={styles.loginGroup}>
+          <label htmlFor="password" className={styles.loginLabel}>Contraseña:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className={styles.loginInput}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="direccion">Direccion de origen:</label>
+        <div className={styles.loginGroup}>
+          <label htmlFor="direccion" className={styles.loginLabel}>Dirección de origen:</label>
           <input
             type="text"
             id="direccion"
             value={direccion}
             onChange={(e) => setDireccion(e.target.value)}
             required
+            className={styles.loginInput}
           />
         </div>
-        {error && <p className="error-message">{error}</p>}
-        {cargando && <p className="loading-message">Registrando usuario...</p>}
-        <button type="submit" className="button button-primary" disabled={cargando}>
+        {error && <p className={styles.errorMessage}>{error}</p>}
+        {cargando && <p className={styles.loadingMessage}>Registrando usuario...</p>}
+        <button type="submit" className={styles.loginButton} disabled={cargando}>
           Registrarse
         </button>
       </form>

@@ -1,37 +1,38 @@
-import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api"
-const ORIGEN_COORDENADAS = { lat: -34.9003698, lng: -60.0210871 } // Gral. Pinto 58, Chivilcoy
+import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
+import styles from "../styles/mapaConRuta.module.css";
+const ORIGEN_COORDENADAS = { lat: -34.9003698, lng: -60.0210871 }; // Gral. Pinto 58, Chivilcoy
 
 const MapaConRuta = ({ directions }) => {
-    if (!directions) return null
-  
-    // Eliminamos el ultimo tramo (vuelta al origen)
-    const routeSinVuelta = {
-      ...directions,
-      routes: [
-        {
-          ...directions.routes[0],
-          legs: directions.routes[0].legs.slice(0, -1), // quitamos la ultima "pierna"
-        },
-      ],
-    }
-  
-    return (
+  if (!directions) return null;
+
+  // Eliminamos el ultimo tramo (vuelta al origen)
+  const routeSinVuelta = {
+    ...directions,
+    routes: [
+      {
+        ...directions.routes[0],
+        legs: directions.routes[0].legs.slice(0, -1), // quitamos la ultima "pierna"
+      },
+    ],
+  };
+
+  return (
+    <div className={styles.mapaContainer}>
       <GoogleMap
         center={ORIGEN_COORDENADAS}
         zoom={13}
         mapContainerStyle={{ width: "100%", height: "500px" }}
         options={{
-            disableDefaultUI: true,
-            zoomControl: true, // Habilita los botones de zoom
-            streetViewControl: true, // Oculta Street View
-            fullscreenControl: true, // Mantiene el botón de pantalla completa
-          }}
+          disableDefaultUI: true,
+          zoomControl: true,
+          streetViewControl: true,
+          fullscreenControl: true,
+        }}
       >
-        <DirectionsRenderer
-          directions={routeSinVuelta}
-        />
+        <DirectionsRenderer directions={routeSinVuelta} />
       </GoogleMap>
-    )
-  }
-  
-export default MapaConRuta
+    </div>
+  );
+};
+
+export default MapaConRuta;
