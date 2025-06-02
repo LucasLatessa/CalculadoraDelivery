@@ -1,7 +1,7 @@
 .app {
   min-height: 100vh;
   background: #f4f8fb;
-  padding: 2.5rem 0;
+  padding: 1rem 0;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
@@ -9,14 +9,14 @@
   display: flex;
   justify-content: center;
   gap: 1.2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .button {
   padding: 0.7rem 1.5rem;
   border-radius: 8px;
   border: none;
-  font-size: 1.08rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
@@ -28,6 +28,7 @@
 }
 
 .buttonSecondary {
+  padding: 0.5rem 0.5rem;
   background: #6c757d;
   color: #fff;
 }
@@ -82,9 +83,9 @@
 .container {
   background: #fff;
   border-radius: 14px;
-  max-width: 430px;
+  width: 50%;
   margin: 0 auto 2.5rem auto;
-  padding: 2.2rem 2rem 2rem 2rem;
+  padding: 0.5rem 2rem 2rem 2rem;
   box-shadow: 0 4px 32px rgba(0,0,0,0.10);
 }
 
@@ -92,7 +93,6 @@
   font-size: 1.7rem;
   font-weight: 700;
   color: #007bff;
-  margin-bottom: 1.5rem;
   text-align: center;
 }
 
@@ -101,6 +101,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 }
 
 .formGroup label {
@@ -110,11 +111,11 @@
 }
 
 .formGroup input {
-  width: 55%;
   padding: 0.55rem 0.9rem;
   border: 1.5px solid #007bff;
   border-radius: 7px;
   font-size: 1.05rem;
+  width: 80%;
   margin-bottom: 0.2rem;
 }
 
@@ -176,12 +177,55 @@
   font-size: 1.02rem;
 }
 
+.suggestionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  border: 1px solid #007bff;
+  border-top: none;
+  width: 85%;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  top: 100%;
+  left: 15px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 4px 4px;
+}
+
+.suggestionItem {
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestionItem:hover {
+  background-color: #f0f0f0;
+}
+
+
 @media (max-width: 600px) {
+  .title{
+    font-size: 1.5rem;
+  }
   .container {
+    width: 90%;
     padding: 1.2rem 0.7rem;
-    max-width: 98vw;
+    max-width: 85vw;
   }
   .app {
-    padding: 1rem 0;
+    padding: 0.5rem 0.5rem;
+  }
+  .configButtonContainer {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .buttonSecondary {
+    width: 80%;
+    min-width: unset;
   }
 }

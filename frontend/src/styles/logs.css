@@ -19,45 +19,79 @@
 
 .logs-table-container {
   overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 123, 255, 0.08);
+  background: #f4f8fb;
+  padding: 18px 0;
 }
 
 .logs-table {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 15px;
   background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 123, 255, 0.06);
 }
 
 .logs-table th,
 .logs-table td {
-  border: 1px solid #ddd;
-  padding: 12px 8px;
+  border: none;
+  padding: 14px 12px;
   text-align: left;
 }
 
 .logs-table th {
-  background-color: #f0f0f0;
-  color: #333;
-  font-weight: bold;
+  background: linear-gradient(180deg, #007bff 0%, #0056b3 100%);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 1.05em;
+  border-bottom: 2px solid #007bff;
+}
+
+.logs-table tr {
+  transition: background 0.18s;
 }
 
 .logs-table tr:nth-child(even) {
-  background-color: #fafafa;
+  background-color: #f6faff;
+}
+
+.logs-table tr:nth-child(odd) {
+  background-color: #fff;
 }
 
 .logs-table tr:hover {
-  background-color: #f1f1f1;
+  background-color: #e3f0ff;
 }
 
+.logs-table td {
+  color: #222;
+  font-size: 0.98em;
+  border-bottom: 1px solid #e3f0ff;
+}
+
+.logs-table td:last-child,
+.logs-table th:last-child {
+  border-right: none;
+}
+
+.logs-table th:first-child,
+.logs-table td:first-child {
+  border-left: none;
+}
 
 @media (max-width: 768px) {
   .logs-table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    padding: 8px 0;
   }
 
   .logs-table {
     min-width: 600px;
+    font-size: 13px;
   }
 
   .logs-title {

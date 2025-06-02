@@ -50,3 +50,54 @@ export async function calcularDistancia (origen, destino) {
             )
           })
         }
+
+export function buscarSugerenciasDireccion(input, callback) {
+  if (input.length > 3 && window.google && window.google.maps && window.google.maps.places) {
+    if (!window._autocompleteService) {
+      window._autocompleteService = new window.google.maps.places.AutocompleteService();
+    }
+    window._autocompleteService.getPlacePredictions(
+      { input, componentRestrictions: { country: "ar" } },
+      (predicciones, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && predicciones) {
+          callback(predicciones);
+        } else {
+          callback([]);
+        }
+      }
+    );
+  } else {
+    callback([]);
+  }
+}
+
+export function calcularRutaOptima(origen, destinos, callback, errorCallback) {
+  if (!window.google || !window.google.maps) {
+    errorCallback && errorCallback("Google Maps no está disponible");
+    return;
+  }
+  const directionsService = new window.google.maps.DirectionsService();
+  const origenCoordenadas = {
+    lat: parseFloat(origen.origen_lat),
+    lng: parseFloat(origen.origen_lng)
+  };
+  directionsService.route(
+    {
+      origin: origenCoordenadas,
+      destination: origenCoordenadas,
+      waypoints: destinos.map((coordenada) => ({
+        location: coordenada,
+        stopover: true,
+      })),
+      travelMode: window.google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true,
+    },
+    (response, status) => {
+      if (status === "OK") {
+        callback(response);
+      } else {
+        errorCallback && errorCallback("Error al calcular la ruta");
+      }
+    }
+  );
+}

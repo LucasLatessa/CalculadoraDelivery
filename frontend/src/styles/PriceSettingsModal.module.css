@@ -116,3 +116,37 @@
 .priceModalSave:hover {
   background: #16a34a;
 }
+.suggestionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  border: 1px solid #007bff;
+  border-top: none;
+  width: 90%;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  top: 100%;
+  left: 15px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 4px 4px;
+}
+
+.suggestionItem {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestionItem:hover {
+  background-color: #f0f0f0;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 1rem;
+}
+
+

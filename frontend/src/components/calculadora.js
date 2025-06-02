@@ -6,8 +6,10 @@ import MapaConRuta from "./mapaConRuta";
 import PriceSettingsModal from "./PriceSettingsModal";
 import OrigenSettingsModal from "./OrigenSettingsModal";
 import { obtenerCoordenadas, calcularDistancia } from "../services/maps";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt, FaSearch } from "react-icons/fa";
 import styles from "../styles/calculator.module.css";
+import { buscarSugerenciasDireccion, calcularRutaOptima} from "../services/maps";
+
 const CIUDAD = ", Chivilcoy, Buenos Aires, Argentina";
 const CUADRA_METROS = 100;
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -24,6 +26,8 @@ function Calculadora() {
   const [carrito, setCarrito] = useState([]);
   const [directions, setDirections] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
+  const [sugerencias, setSugerencias] = useState([]);
+  const [direccionValida, setDireccionValida] = useState(false);
   const libraries = ['places'];
   const navigate = useNavigate();
 
@@ -84,6 +88,10 @@ function Calculadora() {
     return precios[precios.length - 1].precio;
   };
   const handleCalcular = async () => {
+    if (!direccionValida) {
+      setError("Por favor, ingrese una dirección válida.");
+      return;
+    }
     setCargando(true)
     setError("")
     setResultado(null)
@@ -121,36 +129,33 @@ function Calculadora() {
   }
 
   // Funcion para calcular la ruta optimizada
-  const calcularRutaOptima = () => {
-    const destinos = carrito.map((item) => item.coordenadas)
-
-    // Usamos DirectionsService para calcular el recorrido optimizado
-    const directionsService = new window.google.maps.DirectionsService()
-    const origenCoordenadas = {
-      lat: parseFloat(origen.origen_lat),
-      lng: parseFloat(origen.origen_lng)
+  const habldeCalcularRutaOptima = () => {
+    const destinos = carrito.map((item) => item.coordenadas);
+    calcularRutaOptima(
+      origen,
+      destinos,
+      (response) => setDirections(response),
+      (errMsg) => setError(errMsg)
+    );
+};
+  const handleDireccionChange = (e) => {
+    const valor = e.target.value;
+      setDireccion(valor);
+      setDireccionValida(false);
+      setSugerencias([]);
+      setError("");
     };
-    // Solicitar la ruta optimizada con los destinos
-    directionsService.route(
-      {
-        origin: origenCoordenadas,
-        destination: origenCoordenadas,
-        waypoints: destinos.map((coordenada) => ({
-          location: coordenada,
-          stopover: true,
-        })),
-        travelMode: window.google.maps.TravelMode.DRIVING,
-        optimizeWaypoints: true,
-      },
-      (response, status) => {
-        if (status === "OK") {
-          setDirections(response)
-        } else {
-          setError("Error al calcular la ruta")
-        }
-      }
-    )
-  }
+  const handleDireccionEnter = (e) => {
+    if (e.key === "Enter") {
+      buscarSugerenciasDireccion(direccion, setSugerencias);
+    }
+  };
+
+  const seleccionarDireccion = (item) => {
+    setDireccion(item.description);
+    setDireccionValida(true);
+    setSugerencias([]);
+  };
 
   if (!isLogged) {
     return (
@@ -185,13 +190,58 @@ function Calculadora() {
           <h1 className={styles.title}>Calcular costo de envio</h1>
           <div className={styles.formGroup}>
             <label htmlFor="direccion">Ingrese dirección destino:</label>
-            <input
-              id="direccion"
-              type="text"
-              placeholder="San Martín 123"
-              value={direccion}
-              onChange={(e) => setDireccion(e.target.value)}
-            />
+            <div style={{ position: "relative", width: "100%" }}>
+              <button
+                type="button"
+                onClick={() => buscarSugerenciasDireccion(direccion, setSugerencias)}
+                className={styles.searchButton}
+                tabIndex={-1}
+                style={{
+                  position: "absolute",
+                  left: 4,
+                  top: "50%",
+                  transform: "translateY(-55%)",
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  zIndex: 2,
+                  color: "#007bff",
+                  fontSize: "1.1em",
+                  width: "2em",
+                  height: "2em",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+                aria-label="Buscar dirección"
+              >
+                <FaSearch />
+              </button>
+              <input
+                id="direccion"
+                type="text"
+                autoComplete="off"
+                placeholder="San Martín 123"
+                value={direccion}
+                onChange={handleDireccionChange}
+                onKeyDown={handleDireccionEnter}
+                style={{ paddingLeft: "2em" }}
+              />
+              {sugerencias.length > 0 && (
+                <ul className={styles.suggestionsList}>
+                  {sugerencias.map((item) => (
+                    <li
+                      key={item.place_id}
+                      onClick={() => seleccionarDireccion(item)}
+                      className={styles.suggestionItem}
+                    >
+                      {item.description}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
           <button onClick={handleCalcular} className={`${styles.button} ${styles.buttonPrimary}`} disabled={cargando}>
             Calcular costo
@@ -223,7 +273,7 @@ function Calculadora() {
                   </li>
                 ))}
               </ul>
-              <button className={styles.buttonOptimizar} onClick={calcularRutaOptima}>Armar recorrido</button>
+              <button className={styles.buttonOptimizar} onClick={habldeCalcularRutaOptima}>Armar recorrido</button>
             </div>
           )}
         </div>
